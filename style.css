@@ -1,0 +1,14 @@
+/* Basic reset */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+img,
+picture {
+  max-width: 100%;
+  display: block;
+}
+html {
+  font-size: 62.5%;
+}
