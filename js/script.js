@@ -30,11 +30,12 @@ const controlMenuBar = function (...icons) {
 
 controlMenuBar(menuIcon, closeIcon);
 
-const renderInputFieldHtml = function () {
-  container.innerHTML = "";
-
+const generateMarkupInputField = function () {
   const inputContainer = document.createElement("div");
   inputContainer.className = "inputContainer";
+
+  const inputWrapper = document.createElement("div");
+  inputWrapper.className = "input-wrapper";
 
   const input = document.createElement("input");
   input.type = "text";
@@ -44,13 +45,51 @@ const renderInputFieldHtml = function () {
   const button = document.createElement("button");
   button.textContent = "Get Recommendation";
 
-  inputContainer.append(input, button);
+  inputWrapper.appendChild(input);
+  inputContainer.append(inputWrapper, button);
+
+  let typingTimeout;
+  let spinnerTimeout;
+
+  input.addEventListener("input", function () {
+    clearTimeout(typingTimeout);
+    clearTimeout(spinnerTimeout);
+
+    const existingSpinner = inputWrapper.querySelector(".spinner");
+    if (existingSpinner) existingSpinner.remove();
+
+    if (input.value.trim().length > 0) {
+      typingTimeout = setTimeout(() => {
+        const spinner = generateMarkupSpinner(inputWrapper);
+
+        spinnerTimeout = setTimeout(() => {
+          if (spinner) {
+            spinner.remove();
+          }
+        }, 2000);
+      }, 300);
+    }
+  });
+
   return inputContainer;
+};
+
+const generateMarkupSpinner = function (parentEl, width = "", height = "") {
+  const spinner = document.createElement("div");
+  spinner.className = "spinner";
+
+  parentEl.appendChild(spinner);
+  return spinner;
 };
 
 if (recommendForMeBtn) {
   recommendForMeBtn.addEventListener("click", function () {
-    const inputandBtn = renderInputFieldHtml();
+    container.innerHTML = "";
+
+    const inputandBtn = generateMarkupInputField();
+    requestAnimationFrame(() => {
+      inputandBtn.classList.add("is-visible");
+    });
     container.appendChild(inputandBtn);
   });
 }

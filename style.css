@@ -26,6 +26,30 @@ html {
   display: block;
   z-index: 9;
 }
+
+.spinner {
+  position: absolute;
+  right: 1.5rem;
+  top: 30%;
+  transform: translateY(-50%);
+  border: 0.3rem solid rgba(255, 255, 255, 0.1);
+  border-top: 0.3rem solid #ff2d55;
+  border-radius: 50%;
+  width: 2.4rem;
+  height: 2.4rem;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Main section */
 body {
   font-family: "Inter", sans-serif;
   margin: 0 auto;
@@ -194,10 +218,23 @@ ion-icon[name="menu-outline"]:hover {
   max-width: 50rem;
   margin: 0 auto;
   padding: 2.4rem;
+  opacity: 0;
+  transform: translateY(1rem);
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease;
+}
+.inputContainer.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Input Field */
-.inputContainer input[type="text"] {
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+.input-wrapper input[type="text"] {
   width: 100%;
   padding: 1.6rem 2rem;
   font-size: 1.6rem;
@@ -209,13 +246,14 @@ ion-icon[name="menu-outline"]:hover {
   outline: none;
   transition: all 0.3s ease;
   backdrop-filter: blur(12px);
+  position: relative;
 }
 
-.inputContainer input[type="text"]::placeholder {
+.input-wrapper input[type="text"]::placeholder {
   color: #94a3b8;
 }
 
-.inputContainer input[type="text"]:focus {
+.input-wrapper input[type="text"]:focus {
   background: rgba(255, 255, 255, 0.12);
   border-color: #ff2d55;
   box-shadow: 0 0 20px rgba(255, 45, 85, 0.3);
