@@ -3,13 +3,58 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie Recommendation App</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+
     <script src="./js/script.js" defer></script>
     <link rel="stylesheet" href="style.css" />
-    <title>Movie Recoomendation App</title>
   </head>
   <body>
     <header>
-      <nav></nav>
+      <div class="header-items">
+        <div class="logo">LOGO</div>
+        <ion-icon name="menu-outline"></ion-icon>
+        <nav class="hidden">
+          <ion-icon name="close-outline"></ion-icon>
+          <ul class="links">
+            <li class="link">
+              <a href="#" class="nav-links">
+                <ion-icon name="home-outline"></ion-icon>
+                <p class="nav-link">Home</p></a
+              >
+            </li>
+            <li class="link">
+              <a href="#" class="nav-links">
+                <ion-icon name="call-outline"></ion-icon>
+                <p class="nav-link">Contact Us</p></a
+              >
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="body-container">
+        <p class="movie-description">
+          Discover movies you'll actually enjoy, Get personalized
+          recommendations based on what you like or what's trending....
+        </p>
+        <button class="recommend-btn">Recommend For Me!</button>
+      </div>
     </header>
+    <div class="overlay"></div>
   </body>
 </html>
