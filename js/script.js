@@ -7,11 +7,11 @@ const overlay = document.querySelector(".overlay");
 const container = document.querySelector(".body-container");
 const recommendForMeBtn = document.querySelector(".recommend-btn");
 
-function controlOverLay() {
+const controlOverLay = function () {
   nav.classList.toggle("hidden");
   menuIcon.classList.toggle("hidden");
   overlay.classList.toggle("show");
-}
+};
 
 const controlMenuBar = function (...icons) {
   icons.forEach((icon) => {
@@ -34,19 +34,25 @@ const generateMarkupInputField = function () {
   const inputContainer = document.createElement("div");
   inputContainer.className = "inputContainer";
 
+  const form = document.createElement("form");
+  form.className = "input-form";
+
   const inputWrapper = document.createElement("div");
   inputWrapper.className = "input-wrapper";
 
   const input = document.createElement("input");
   input.type = "text";
-  input.required = true;
+  input.name = "query";
+  // input.required = true;
   input.placeholder = "Enter a movie name....";
 
   const button = document.createElement("button");
+  button.type = "submit";
   button.textContent = "Get Recommendation";
 
   inputWrapper.appendChild(input);
-  inputContainer.append(inputWrapper, button);
+  form.append(inputWrapper, button);
+  inputContainer.appendChild(form);
 
   let typingTimeout;
   let spinnerTimeout;
@@ -71,10 +77,10 @@ const generateMarkupInputField = function () {
     }
   });
 
-  return inputContainer;
+  return { inputContainer, form };
 };
 
-const generateMarkupSpinner = function (parentEl, width = "", height = "") {
+const generateMarkupSpinner = function (parentEl) {
   const spinner = document.createElement("div");
   spinner.className = "spinner";
 
@@ -82,14 +88,56 @@ const generateMarkupSpinner = function (parentEl, width = "", height = "") {
   return spinner;
 };
 
+function generateMarkupModal(error = "You are good to go") {
+  const modal = document.createElement("div");
+  modal.className = "modal";
+
+  const modalContent = document.createElement("div");
+  modalContent.className = "modal-content";
+
+  const text = document.createElement("p");
+  text.textContent = error;
+
+  modalContent.appendChild(text);
+  modal.appendChild(modalContent);
+
+  showModal(modal);
+  // document.body.appendChild(modal);
+}
+
+const showModal = function (modal) {
+  document.body.appendChild(modal);
+  setTimeout(() => modal.classList.add("show"), 10);
+
+  // Auto-close the modal after 2 seconds
+  setTimeout(() => {
+    modal.classList.remove("show");
+  }, 2000);
+};
+
 if (recommendForMeBtn) {
   recommendForMeBtn.addEventListener("click", function () {
     container.innerHTML = "";
 
-    const inputandBtn = generateMarkupInputField();
+    const { inputContainer, form } = generateMarkupInputField();
+    container.appendChild(inputContainer);
     requestAnimationFrame(() => {
-      inputandBtn.classList.add("is-visible");
+      inputContainer.classList.add("is-visible");
     });
-    container.appendChild(inputandBtn);
+
+    collectFormData(form);
   });
 }
+
+const collectFormData = function (form) {
+  if (!form) return console.log("form not found");
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    if (!data.query)
+      return generateMarkupModal("Invalid! You didnt input any query.");
+  });
+};

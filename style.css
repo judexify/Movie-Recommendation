@@ -49,6 +49,43 @@ html {
   }
 }
 
+/* Modal */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  z-index: 100;
+  width: 90%;
+  max-width: 40rem;
+  opacity: 0;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.modal.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  pointer-events: auto;
+}
+
+/* Modal Content */
+.modal-content {
+  background: linear-gradient(180deg, #12122a 0%, #1c1c3a 100%);
+  border-radius: 12px;
+  padding: 4rem;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.modal-content p {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #e5e7eb;
+  margin: 0;
+  /* text-transform: uppercase; */
+}
+
 /* Main section */
 body {
   font-family: "Inter", sans-serif;
@@ -229,6 +266,14 @@ ion-icon[name="menu-outline"]:hover {
   transform: translateY(0);
 }
 
+.input-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3.6rem;
+  width: 100%;
+}
+
 /* Input Field */
 .input-wrapper {
   position: relative;
@@ -260,7 +305,7 @@ ion-icon[name="menu-outline"]:hover {
 }
 
 /* Button */
-.inputContainer button {
+.input-form button {
   width: 70%;
   padding: 1.6rem 2.4rem;
   font-size: 100%;
@@ -277,12 +322,12 @@ ion-icon[name="menu-outline"]:hover {
   white-space: nowrap;
 }
 
-.inputContainer button:hover {
+.input-form button:hover {
   background: #ff5c7c;
   box-shadow: 0 0 30px rgba(255, 92, 124, 0.6);
   transform: translateY(-2px);
 }
 
-.inputContainer button:active {
+.input-form button:active {
   transform: translateY(0);
 }
