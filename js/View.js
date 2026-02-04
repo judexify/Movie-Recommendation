@@ -83,3 +83,39 @@ export function showmodal(message = "You are good to go") {
     modal.classList.remove("show");
   }, 2000);
 }
+
+export const setupInfiniteScroll = function (element, parentEl) {
+  const squaresArray = Array.from(element);
+
+  // Clone all squares and append them
+  squaresArray.forEach((square) => {
+    const clone = square.cloneNode(true);
+    parentEl.appendChild(clone);
+  });
+};
+
+export const displayTrending = function (dataArr, parentEl) {
+  const slicedDataArr = dataArr.slice(0, 9);
+
+  console.log(slicedDataArr);
+
+  const squaresMarkup = slicedDataArr
+    .map((data) => {
+      const imgPath = `https://image.tmdb.org/t/p/w500${data.poster_path}`;
+
+      return `
+        <div class="square" data-id="${data.id}">
+          <img src="${imgPath}" />
+        </div>
+      `;
+    })
+    .join("");
+
+  const markup = `
+    <div class="trending-movies">
+      ${squaresMarkup}
+    </div>
+  `;
+
+  parentEl.insertAdjacentHTML("beforeend", markup);
+};

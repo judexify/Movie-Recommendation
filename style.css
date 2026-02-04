@@ -100,11 +100,9 @@ header {
   background-image: url(./img/background\ image.jpeg);
   background-size: cover;
   position: relative;
-  padding: 0 2.4rem;
+  padding: 5.6rem 0 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
 }
 header::after {
   content: "";
@@ -224,6 +222,11 @@ ion-icon[name="menu-outline"]:hover {
   align-items: center;
   gap: 3.6rem;
   z-index: 9;
+  width: 100%;
+  max-width: 60rem;
+  margin-top: 5.4rem;
+  /* margin-bottom: auto; */
+  padding: 0 2.4rem;
 }
 .movie-description {
   text-align: center;
@@ -245,6 +248,39 @@ ion-icon[name="menu-outline"]:hover {
   background-color: #ff5c7c;
 }
 
+.trending-movies {
+  display: flex;
+  gap: 1.2rem;
+  width: 100%;
+  z-index: 9;
+  overflow: hidden;
+  /* margin: 0 0-0.5rem 0; */
+  margin-top: auto;
+  margin-bottom: 2.4rem;
+  scroll-behavior: auto;
+}
+
+.square {
+  min-width: 20rem;
+  height: 20rem;
+  background: linear-gradient(135deg, #1c1c3a 0%, #12122a 100%);
+  border-radius: 8px;
+  border: 2px solid rgba(255, 45, 85, 0.2);
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.square:hover {
+  border-color: #ff2d5380;
+  transform: scale(1.05);
+}
+.square img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 /* Input Section */
 
 .inputContainer {

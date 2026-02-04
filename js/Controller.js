@@ -7,8 +7,13 @@ const closeIcon = document.querySelector('[name="close-outline"]');
 const overlay = document.querySelector(".overlay");
 const container = document.querySelector(".body-container");
 const recommendForMeBtn = document.querySelector(".recommend-btn");
+const header = document.querySelector("header");
 
-const init = function () {
+// Infinite scroll carousel
+
+document.addEventListener("DOMContentLoaded", init);
+
+function init() {
   menuIcon.addEventListener("click", function () {
     view.controlOverLay(nav, menuIcon, overlay);
   });
@@ -36,9 +41,9 @@ const init = function () {
       controlCollectFormData(form);
     });
   }
-};
 
-init();
+  controlFetchedTrendingData();
+}
 
 const controlCollectFormData = function (form) {
   if (!form) return;
@@ -59,3 +64,44 @@ const controlCollectFormData = function (form) {
     console.log(model.state.query);
   });
 };
+
+// Auto-Scroll
+function autoScroll(trendingMovies) {
+  const state = model.state;
+
+  if (!state.carousel.isHovered) {
+    state.carousel.scrollPosition += state.carousel.scrollSpeed;
+    trendingMovies.scrollLeft = state.carousel.scrollPosition;
+
+    const maxScroll = trendingMovies.scrollWidth - trendingMovies.clientWidth;
+    if (state.carousel.scrollPosition >= maxScroll) {
+      state.carousel.scrollPosition = 0;
+      trendingMovies.scrollLeft = 0;
+    }
+  }
+
+  requestAnimationFrame(() => autoScroll(trendingMovies));
+  // it calls it self
+}
+
+async function controlFetchedTrendingData() {
+  const trendingMoviesArr = await model.fetchTrendingMovies();
+  view.displayTrending(trendingMoviesArr, header);
+
+  const trendingMovies = document.querySelector(".trending-movies");
+  const squares = document.querySelectorAll(".square");
+
+  const state = model.state;
+  // Pause on hover
+  trendingMovies.addEventListener("mouseenter", () => {
+    state.carousel.isHovered = true;
+  });
+
+  trendingMovies.addEventListener("mouseleave", () => {
+    state.carousel.isHovered = false;
+  });
+
+  // Initialize scroll
+  view.setupInfiniteScroll(squares, trendingMovies);
+  autoScroll(trendingMovies);
+}
