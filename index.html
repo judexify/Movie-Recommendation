@@ -52,9 +52,55 @@
           Discover movies you'll actually enjoy, Get personalized
           recommendations based on what you like or what's trending....
         </p>
-        <button class="recommend-btn">Recommend For Me!</button>
+        <button class="recommend-btn" id="#movies">Discover!</button>
       </div>
     </header>
+    <main>
+      <section class="movies-section" id="movies">
+        <div class="inputContainer">
+          <form class="input-form">
+            <div class="input-wrapper">
+              <input
+                type="text"
+                name="query"
+                placeholder="Enter a movie name...."
+              />
+            </div>
+
+            <button type="submit">Get Recommendation</button>
+          </form>
+        </div>
+      </section>
+      <section class="tabbed-component-section">
+        <div class="tabs">
+          <button class="tablinks active"  id="trending">
+            TRENDING
+          </button>
+          <button class="tablinks"  id="popular">POPULAR</button>
+            
+          </button>
+          <button class="tablinks" id="top-rated">
+            TOP RATED
+          </button>
+        </div>
+
+        <!-- Tab content -->
+        <div id="trending-section" class="tabcontent">
+          <h3>TRENDING</h3>
+          <p>THIS IS TRENDING SECTION</p>
+        </div>
+
+        <div id="popular-section" class="tabcontent hidden">
+          <h3>POPULAR</h3>
+          <p>THIS IS THE POPULAR SECTION</p>
+        </div>
+
+        <div id="top-rated" class="tabcontent hidden">
+          <h3>TOP RATED</h3>
+          <p>THIS IS THE TOPRATED SECTION</p>
+        </div>
+      </section>
+    </main>
     <div class="overlay"></div>
   </body>
 </html>

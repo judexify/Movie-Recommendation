@@ -94,17 +94,12 @@ body {
   max-width: 60rem;
   background-color: #0a0a14;
   position: relative;
-}
-header {
-  min-height: 100vh;
   background-image: url(./img/background\ image.jpeg);
   background-size: cover;
-  position: relative;
-  padding: 5.6rem 0 0;
-  display: flex;
-  flex-direction: column;
+  background-attachment: fixed;
+  background-position: center;
 }
-header::after {
+body::before {
   content: "";
   position: fixed;
   inset: 0;
@@ -112,6 +107,15 @@ header::after {
   backdrop-filter: blur(1px);
   z-index: 1;
 }
+header {
+  min-height: 100vh;
+  position: relative;
+  padding: 5.6rem 0 0;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10.8rem;
+}
+
 .header-items {
   display: flex;
   align-items: center;
@@ -221,11 +225,12 @@ ion-icon[name="menu-outline"]:hover {
   flex-direction: column;
   align-items: center;
   gap: 3.6rem;
+  position: relative;
   z-index: 9;
   width: 100%;
   max-width: 60rem;
   margin-top: 5.4rem;
-  /* margin-bottom: auto; */
+  margin-bottom: auto;
   padding: 0 2.4rem;
 }
 .movie-description {
@@ -254,9 +259,7 @@ ion-icon[name="menu-outline"]:hover {
   width: 100%;
   z-index: 9;
   overflow: hidden;
-  /* margin: 0 0-0.5rem 0; */
-  margin-top: auto;
-  margin-bottom: 2.4rem;
+  margin: 0 0 -2.4rem 0;
   scroll-behavior: auto;
 }
 
@@ -281,6 +284,7 @@ ion-icon[name="menu-outline"]:hover {
   height: 100%;
   object-fit: cover;
 }
+
 /* Input Section */
 
 .inputContainer {
@@ -291,7 +295,7 @@ ion-icon[name="menu-outline"]:hover {
   max-width: 50rem;
   margin: 0 auto;
   padding: 2.4rem;
-  opacity: 0;
+  opacity: 1;
   transform: translateY(1rem);
   transition:
     opacity 0.4s ease,
@@ -366,4 +370,79 @@ ion-icon[name="menu-outline"]:hover {
 
 .input-form button:active {
   transform: translateY(0);
+}
+main {
+  position: relative;
+  z-index: 9;
+  background-color: #1c1c3a;
+}
+.movies-section {
+  padding: 4.8rem 0;
+}
+
+/* TABBED SECTION  */
+.tabbed-component-section {
+  padding: 2.4rem;
+  max-width: 100%;
+}
+.tabs {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 8px;
+  padding: 0.8rem;
+}
+
+.tabs button {
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 1.4rem 1.6rem;
+  transition: all 0.3s ease;
+  color: #e5e7eb;
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  border-radius: 6px;
+  flex: 1;
+}
+
+.tabs button:hover {
+  background: rgba(255, 45, 85, 0.2);
+  color: #ff2d55;
+}
+
+.tabs button.active {
+  background: #ff2d55;
+  color: #e5e7eb;
+  box-shadow: 0 0 20px rgba(255, 45, 85, 0.4);
+}
+
+.tabcontent {
+  display: block;
+  padding: 2.4rem;
+  border-radius: 8px;
+  margin-top: 1.6rem;
+  background: linear-gradient(135deg, #1c1c3a 0%, #12122a 100%);
+  color: #e5e7eb;
+}
+.tabcontent.hidden {
+  display: none;
+}
+.tabcontent h3 {
+  font-size: 2rem;
+  color: #ff2d55;
+  margin-bottom: 1.2rem;
+  letter-spacing: 1px;
+}
+
+.tabcontent p {
+  font-size: 1.6rem;
+  color: #94a3b8;
+  line-height: 1.6;
 }
