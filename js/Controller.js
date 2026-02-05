@@ -12,6 +12,8 @@ const moviesSection = document.querySelector(".movies-section");
 const form = document.querySelector(".input-form");
 const inputField = document.querySelector('input[name="query"]');
 const inputWrapper = document.querySelector(".input-wrapper");
+const tabs = document.querySelectorAll(".tabs button");
+console.log(tabs);
 
 // Infinite scroll carousel
 
@@ -61,6 +63,7 @@ function init() {
 
   controlFetchedTrendingData();
   addSpinnerToInput();
+  showTabFromURL();
 }
 
 form.addEventListener("submit", function (e) {
@@ -117,4 +120,36 @@ async function controlFetchedTrendingData() {
   // Initialize scroll
   view.setupInfiniteScroll(squares, trendingMovies);
   autoScroll(trendingMovies);
+}
+
+function showTabFromURL() {
+  const tabsArr = Array.from(tabs);
+  const validTabs = tabsArr.map((t) => t.dataset.tab);
+
+  function activateTab(tabId) {
+    tabsArr.forEach((btn) => btn.classList.remove("active"));
+
+    document.querySelectorAll(".tabcontent").forEach((content) => {
+      content.classList.add("hidden");
+    });
+
+    const btn = tabsArr.find((b) => b.dataset.tab === tabId);
+    if (!btn) return;
+
+    btn.classList.add("active");
+    document.getElementById(tabId + "-section")?.classList.remove("hidden");
+  }
+
+  tabsArr.forEach((button) => {
+    button.addEventListener("click", function () {
+      const tabId = this.dataset.tab;
+      window.location.hash = tabId;
+      activateTab(tabId);
+    });
+  });
+
+  const hash = window.location.hash.slice(1);
+  if (hash && validTabs.includes(hash)) {
+    activateTab(hash);
+  }
 }
