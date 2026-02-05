@@ -1,5 +1,6 @@
 import * as view from "./View.js";
 import * as model from "./Model.js";
+import * as helper from "./helper.js";
 
 const menuIcon = document.querySelector('[name="menu-outline"]');
 const nav = document.querySelector("nav");
@@ -13,7 +14,8 @@ const form = document.querySelector(".input-form");
 const inputField = document.querySelector('input[name="query"]');
 const inputWrapper = document.querySelector(".input-wrapper");
 const tabs = document.querySelectorAll(".tabs button");
-console.log(tabs);
+const trendingSection = document.querySelector("#trending-section");
+const tabbedSection = document.querySelector(".tabbed-component-section");
 
 // Infinite scroll carousel
 
@@ -32,7 +34,7 @@ const addSpinnerToInput = function () {
 
     if (inputField.value.trim().length > 0) {
       typingTimeout = setTimeout(() => {
-        const spinner = view.generateMarkupSpinner(inputWrapper);
+        const spinner = view.generateMarkupSpinner(inputWrapper, 2.4, 2.4);
 
         spinnerTimeout = setTimeout(() => {
           if (spinner) {
@@ -101,8 +103,10 @@ function autoScroll(trendingMovies) {
 }
 
 async function controlFetchedTrendingData() {
+  view.generateMarkupSpinner(trendingSection, 4.8, 4.8, "spinner-centered");
   const trendingMoviesArr = await model.fetchTrendingMovies();
-  view.displayTrending(trendingMoviesArr, header);
+  view.displayTrendingForCarousel(trendingMoviesArr, header);
+  controlFetchedDataForTrending(trendingMoviesArr);
 
   const trendingMovies = document.querySelector(".trending-movies");
   const squares = document.querySelectorAll(".square");
@@ -120,6 +124,10 @@ async function controlFetchedTrendingData() {
   // Initialize scroll
   view.setupInfiniteScroll(squares, trendingMovies);
   autoScroll(trendingMovies);
+}
+
+function controlFetchedDataForTrending(data) {
+  view.displayTrendingForTabbedComponent(data, trendingSection);
 }
 
 function showTabFromURL() {
@@ -153,3 +161,21 @@ function showTabFromURL() {
     activateTab(hash);
   }
 }
+
+// const handleMovieCardClick = async function (e) {
+//   const movieCard = e.target.closest(".movie-card");
+//   if (!movieCard) return;
+
+//   const movieId = movieCard.dataset.id;
+//   const mediaType = movieCard.dataset.mediatype;
+
+//   // Fetch watch providers
+//   const providers = await helper.getWatchProviders(mediaType, movieId);
+
+//   if (providers && providers.results) {
+//     console.log("Watch Providers:", providers.results);
+//     displayWatchProviders(providers.results, movieCard);
+//   }
+// };
+
+// trendingSection.addEventListener("click", handleMovieCardClick);

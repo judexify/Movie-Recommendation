@@ -4,9 +4,16 @@ export const controlOverLay = function (nav, menuIcon, overlay) {
   overlay.classList.toggle("show");
 };
 
-export const generateMarkupSpinner = function (parentEl) {
+export const generateMarkupSpinner = function (
+  parentEl,
+  width,
+  height,
+  className = "spinner",
+) {
   const spinner = document.createElement("div");
-  spinner.className = "spinner";
+  spinner.className = className;
+  spinner.style.width = `${width}rem`;
+  spinner.style.height = `${height}rem`;
 
   parentEl.appendChild(spinner);
   return spinner;
@@ -44,7 +51,7 @@ export const setupInfiniteScroll = function (element, parentEl) {
   });
 };
 
-export const displayTrending = function (dataArr, parentEl) {
+export const displayTrendingForCarousel = function (dataArr, parentEl) {
   const slicedDataArr = dataArr.slice(0, 9);
 
   console.log(slicedDataArr);
@@ -68,4 +75,40 @@ export const displayTrending = function (dataArr, parentEl) {
   `;
 
   parentEl.insertAdjacentHTML("beforeend", markup);
+};
+export const displayTrendingForTabbedComponent = function (dataArr, parentEl) {
+  parentEl.innerHTML = "";
+
+  const slicedDataArr = dataArr.slice(0, 9);
+
+  const trendingTabMarkup = slicedDataArr
+    .map((data) => {
+      return ` <div class="movie-card" data-id="${data.id}" data-mediatype="${data.media_type}">
+        <div class="movie-poster">
+          <img
+            src="https://image.tmdb.org/t/p/w500${data.poster_path}"
+            alt="${data.title}"
+          />
+          <span class="media-type" >${data.media_type || "nil"}</span>
+        </div>
+        <div class="movie-info">
+          <h3 class="movie-title">${data.title ? data.title : data.name}</h3>
+          <p class="movie-overview">
+          ${data.overview || "No Overview Available! Check Back Later."}
+          </p>
+          <ul class="movie-meta">
+            <li class="rating">
+              <ion-icon name="star"></ion-icon>
+              <span>${data.vote_average === 0 ? 5 : data.vote_average}</span>
+            </li>
+            <li class="release-date">${!data.release_date ? "TBA" : data.release_date}</li>
+            <li class="vote-count">${data.vote_count === 0 ? 1 : data.vote_count} votes</li>
+            <li class="read-more">Read More</li>
+          </ul>
+        </div>
+      </div>`;
+    })
+    .join("");
+
+  parentEl.insertAdjacentHTML("afterbegin", trendingTabMarkup);
 };

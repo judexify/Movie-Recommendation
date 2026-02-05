@@ -12,9 +12,9 @@ export const setQuery = function (query) {
 
 export const fetchTrendingMovies = async function () {
   try {
-    const data = await getJSON(API_URL, "trending/all/day");
+    const data = await getJSON(API_URL, "trending/all/day", 1);
 
-    console.log(data.results);
+    console.log(data);
 
     return data.results;
   } catch (err) {
