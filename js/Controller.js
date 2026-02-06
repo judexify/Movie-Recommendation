@@ -6,7 +6,6 @@ const menuIcon = document.querySelector('[name="menu-outline"]');
 const nav = document.querySelector("nav");
 const closeIcon = document.querySelector('[name="close-outline"]');
 const overlay = document.querySelector(".overlay");
-const container = document.querySelector(".body-container");
 const recommendForMeBtn = document.querySelector(".recommend-btn");
 const header = document.querySelector("header");
 const moviesSection = document.querySelector(".movies-section");
@@ -15,7 +14,7 @@ const inputField = document.querySelector('input[name="query"]');
 const inputWrapper = document.querySelector(".input-wrapper");
 const tabs = document.querySelectorAll(".tabs button");
 const trendingSection = document.querySelector("#trending-section");
-const tabbedSection = document.querySelector(".tabbed-component-section");
+const pagination = document.querySelector(".pagination");
 
 // Infinite scroll carousel
 
@@ -66,6 +65,8 @@ function init() {
   controlFetchedTrendingData();
   addSpinnerToInput();
   showTabFromURL();
+  controlPagination();
+  initModalHandlers();
 }
 
 form.addEventListener("submit", function (e) {
@@ -105,8 +106,8 @@ function autoScroll(trendingMovies) {
 async function controlFetchedTrendingData() {
   view.generateMarkupSpinner(trendingSection, 4.8, 4.8, "spinner-centered");
   const trendingMoviesArr = await model.fetchTrendingMovies();
-  view.displayTrendingForCarousel(trendingMoviesArr, header);
   controlFetchedDataForTrending(trendingMoviesArr);
+  view.displayTrendingForCarousel(trendingMoviesArr, header);
 
   const trendingMovies = document.querySelector(".trending-movies");
   const squares = document.querySelectorAll(".square");
@@ -162,20 +163,64 @@ function showTabFromURL() {
   }
 }
 
-// const handleMovieCardClick = async function (e) {
-//   const movieCard = e.target.closest(".movie-card");
-//   if (!movieCard) return;
+async function controlPagination() {
+  pagination.addEventListener("click", async function (e) {
+    e.preventDefault();
+    const target = e.target;
 
-//   const movieId = movieCard.dataset.id;
-//   const mediaType = movieCard.dataset.mediatype;
+    const allPages = pagination.querySelectorAll(".pages");
+    allPages.forEach((page) => page.classList.remove("active"));
 
-//   // Fetch watch providers
-//   const providers = await helper.getWatchProviders(mediaType, movieId);
+    target.classList.add("active");
 
-//   if (providers && providers.results) {
-//     console.log("Watch Providers:", providers.results);
-//     displayWatchProviders(providers.results, movieCard);
-//   }
-// };
+    const targetid = +target.dataset.id;
 
-// trendingSection.addEventListener("click", handleMovieCardClick);
+    const data = await model.fetchTrendingMovies(targetid);
+    controlFetchedDataForTrending(data);
+  });
+}
+
+const handleMovieCardClick = async function (e) {
+  const movieCard = e.target.closest(".movie-card");
+  if (!movieCard) return;
+
+  const movieId = movieCard.dataset.id;
+  const mediaType = movieCard.dataset.mediatype;
+
+  try {
+    const details = await model.fetchMediaDetails(mediaType, movieId);
+
+    console.log("Media Details:", details);
+
+    view.showModalForDetailedMov(details);
+  } catch (error) {
+    console.error("Error loading details:", error);
+    view.showmodal("Failed to load movie details. Please try again.");
+  }
+};
+
+trendingSection.addEventListener("click", handleMovieCardClick);
+
+function initModalHandlers() {
+  const modalOverlay = document.querySelector(".modal-overlay");
+  const modalClose = document.querySelector(".modal-close");
+
+  if (modalClose) {
+    modalClose.addEventListener("click", view.hideModal);
+  }
+
+  if (modalOverlay) {
+    modalOverlay.addEventListener("click", function (e) {
+      if (e.target === modalOverlay) {
+        view.hideModal();
+      }
+    });
+  }
+
+  // Close on Escape key
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") {
+      view.hideModal();
+    }
+  });
+}

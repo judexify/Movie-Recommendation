@@ -10,15 +10,31 @@ export const setQuery = function (query) {
   state.query = query;
 };
 
-export const fetchTrendingMovies = async function () {
+export const fetchTrendingMovies = async function (pages = 1) {
   try {
-    const data = await getJSON(API_URL, "trending/all/day", 1);
+    const data = await getJSON(API_URL, "trending/all/day", pages);
 
     console.log(data);
 
     return data.results;
   } catch (err) {
     console.error("Failed to fetch trending movies:", err);
+    throw err;
+  }
+};
+
+export const fetchMediaDetails = async function (mediaType, mediaId) {
+  try {
+    const data = await getJSON(
+      API_URL,
+      `${mediaType}/${mediaId}?append_to_response=credits,videos,watch/providers`,
+    );
+
+    console.log(data);
+
+    return data;
+  } catch (err) {
+    console.error("Failed to fetch media details:", err);
     throw err;
   }
 };

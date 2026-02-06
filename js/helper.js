@@ -46,6 +46,5 @@ export const getWatchProviders = async function (mediaType, id) {
     return data;
   } catch (err) {
     console.error("Failed to fetch watch providers:", err);
-    return null;
   }
 };

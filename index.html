@@ -133,12 +133,24 @@
         </div>
 
         <div class="pagination">
-          <a href="#" class="active">1</a>
-          <a href="#">2</a>
-          <a href="#">3</a>
+          <a href="" data-id="1" class="pages active">1</a>
+          <a href="" data-id="2" class="pages">2</a>
+          <a href="" data-id="3" class="pages">3</a>
         </div>
       </section>
     </main>
+
+    <div class="modal-overlay hidden">
+      <div class="modal-container">
+        <button class="modal-close">
+          <ion-icon name="close-outline"></ion-icon>
+        </button>
+
+        <div class="modal-content">
+          <!-- Content will be dynamically inserted here -->
+        </div>
+      </div>
+    </div>
     <div class="overlay"></div>
   </body>
 </html>
