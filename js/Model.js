@@ -8,6 +8,13 @@ export const state = {
     mediaType: "movie",
     endpoint: "upcoming",
   },
+  currentPopular: {
+    category: "popular",
+  },
+  currentToprated: {
+    mediaType: "movie",
+    category: "top_rated",
+  },
 };
 
 export const setQuery = function (query) {
@@ -58,4 +65,40 @@ export const fetchMediaDetails = async function (mediaType, mediaId) {
     console.error("Failed to fetch media details:", err);
     throw err;
   }
+};
+
+// this will fetch popular and top rated
+export const fetchPopularandTopRatedMedia = async function (
+  mediaType = "movie",
+  category = "popular",
+  page = 1,
+) {
+  // https://api.themoviedb.org/3/movie/popular
+  //https://api.themoviedb.org/3/tv/popular
+  // https://api.themoviedb.org/3/movie/top_rated
+  // https://api.themoviedb.org/3/tv/top_rated
+  try {
+    const data = await getJSON(API_URL, `/${mediaType}/${category}`, page);
+
+    console.log(data);
+
+    return data.results;
+  } catch (err) {
+    console.error("Failed to fetch media details", err);
+    throw err;
+  }
+};
+
+export const fetchPopularMedia = async function (
+  mediaType = "movie",
+  page = 1,
+) {
+  return fetchPopularandTopRatedMedia(mediaType, "popular", page);
+};
+
+export const fetchTopRatedMedia = async function (
+  mediaType = "movie",
+  page = 1,
+) {
+  return fetchPopularandTopRatedMedia(mediaType, "top_rated", page);
 };

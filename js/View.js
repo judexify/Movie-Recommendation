@@ -98,9 +98,9 @@ export const displayTrendingForTabbedComponent = function (dataArr, parentEl) {
         <ul class="movie-meta">
           <li class="rating">
             <ion-icon name="star"></ion-icon>
-            <span>${data.vote_average === 0 ? 5 : data.vote_average.toFixed(1)}</span>
+            <span>${data.vote_average ? data.vote_average.toFixed(1) : "5.0"}</span>
           </li>
-          <li class="vote-count">${data.vote_count === 0 ? 1 : data.vote_count} votes</li>
+          <li class="vote-count">${data.vote_count || 1} votes</li>
           <li class="read-more">Read More</li>
         </ul>
       </div>
@@ -289,8 +289,8 @@ export const hideModal = function () {
   document.body.style.overflow = "";
 };
 
-export const displayUpcomingContent = function (data, container) {
-  const slicedData = data.slice(0, 9);
+export const displayMediaContent = function (data, container, contentClass) {
+  const slicedData = contentClass === "upcoming" ? data.slice(0, 9) : data;
 
   const markup = slicedData
     .map((item) => {
@@ -311,9 +311,9 @@ export const displayUpcomingContent = function (data, container) {
           <ul class="movie-meta">
             <li class="rating">
               <ion-icon name="star"></ion-icon>
-              <span>${item.vote_average === 0 ? 5 : item.vote_average.toFixed(1)}</span>
+              <span>${item.vote_average ? item.vote_average.toFixed(1) : "5.0"}</span>
             </li>
-            <li class="vote-count">${item.vote_count === 0 ? 1 : item.vote_count} votes</li>
+            <li class="vote-count">${item.vote_count || 1} votes</li>
             <li class="read-more">Read More</li>
           </ul>
         </div>
@@ -321,5 +321,17 @@ export const displayUpcomingContent = function (data, container) {
     })
     .join("");
 
-  container.querySelector(".upcoming-content").innerHTML = markup;
+  container.querySelector(`.${contentClass}-content`).innerHTML = markup;
+};
+
+export const displayUpcomingContent = function (data, container) {
+  displayMediaContent(data, container, "upcoming");
+};
+
+export const displayPopularContent = function (data, container) {
+  displayMediaContent(data, container, "popular");
+};
+
+export const displayTopRatedContent = function (data, container) {
+  displayMediaContent(data, container, "toprated");
 };

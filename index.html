@@ -97,7 +97,7 @@
             UPCOMING
           </button>
 
-          <button class="tablinks" id="top-rated" data-tab="top-rated">
+          <button class="tablinks" id="toprated" data-tab="toprated">
             TOP RATED
           </button>
         </div>
@@ -134,8 +134,20 @@
         </div>
 
         <div id="popular-section" class="tabcontent hidden">
-          <h3>POPULAR</h3>
-          <p>THIS IS THE POPULAR SECTION</p>
+          <div class="media-type-selector">
+            <button class="selector-btn active" data-media="movie">
+              <ion-icon name="film-outline"></ion-icon>
+              <span>Popular Movies</span>
+            </button>
+            <button class="selector-btn" data-media="tv">
+              <ion-icon name="tv-outline"></ion-icon>
+              <span>Popular TV Shows</span>
+            </button>
+          </div>
+
+          <div class="popular-content">
+            <!-- i will populate here  -->
+          </div>
         </div>
         <div id="upcoming-section" class="tabcontent hidden">
           <div class="media-type-selector">
@@ -157,18 +169,31 @@
             </button>
           </div>
           <div class="upcoming-content">
-            <!-- Content will be populated here -->
+            <!-- i will populate here -->
           </div>
         </div>
-        <div id="top-rated-section" class="tabcontent hidden">
-          <h3>TOP RATED</h3>
-          <p>THIS IS THE TOPRATED SECTION</p>
+        <div id="toprated-section" class="tabcontent hidden">
+          <div class="media-type-selector">
+            <button class="selector-btn active" data-media="movie">
+              <ion-icon name="film-outline"></ion-icon>
+              <span>Top Rated Movies</span>
+            </button>
+            <button class="selector-btn" data-media="tv">
+              <ion-icon name="tv-outline"></ion-icon>
+              <span>Top Rated TV Shows</span>
+            </button>
+          </div>
+
+          <div class="toprated-content">
+            <!-- i will populate here  -->
+          </div>
         </div>
 
         <div class="pagination">
           <a href="" data-id="1" class="pages active">1</a>
           <a href="" data-id="2" class="pages">2</a>
           <a href="" data-id="3" class="pages">3</a>
+          <a href="" data-id="4" class="pages">4</a>
         </div>
       </section>
     </main>
