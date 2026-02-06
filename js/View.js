@@ -56,7 +56,7 @@ export const displayTrendingForCarousel = function (dataArr, parentEl) {
 
   const squaresMarkup = slicedDataArr
     .map((data) => {
-      const imgPath = `https://image.tmdb.org/t/p/w500${data.poster_path}`;
+      const imgPath = `https://image.tmdb.org/t/p/w500${data.poster_path || data.profile_path}`;
 
       return `
         <div class="square" data-id="${data.id}">
@@ -81,10 +81,11 @@ export const displayTrendingForTabbedComponent = function (dataArr, parentEl) {
 
   const trendingTabMarkup = slicedDataArr
     .map((data) => {
+      console.log(data);
       return ` <div class="movie-card" data-id="${data.id}" data-mediatype="${data.media_type}">
       <div class="movie-poster">
         <img
-          src="https://image.tmdb.org/t/p/w500${data.poster_path}"
+          src="https://image.tmdb.org/t/p/w500${data.poster_path || data.profile_path}" 
           alt="${data.title}"
         />
         <span class="media-type" >${data.media_type || "nil"}</span>
