@@ -111,9 +111,8 @@ export const displayTrendingForTabbedComponent = function (dataArr, parentEl) {
   parentEl.insertAdjacentHTML("afterbegin", trendingTabMarkup);
 };
 
-// Generate modal markup for movie/TV details
 export const generateModalMarkup = function (data) {
-  const isTV = data.name !== undefined; // TV shows have 'name', movies have 'title'
+  const isTV = data.name !== undefined;
   const title = isTV ? data.name : data.title;
   const releaseDate = isTV ? data.first_air_date : data.release_date;
 

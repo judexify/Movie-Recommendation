@@ -15,6 +15,8 @@ const inputWrapper = document.querySelector(".input-wrapper");
 const tabs = document.querySelectorAll(".tabs button");
 const trendingSection = document.querySelector("#trending-section");
 const pagination = document.querySelector(".pagination");
+const upcomingSection = document.querySelector("#upcoming-section");
+console.log(upcomingSection);
 
 // Infinite scroll carousel
 
@@ -239,6 +241,7 @@ const handleMovieCardClick = async function (e) {
 };
 
 trendingSection.addEventListener("click", handleMovieCardClick);
+upcomingSection.addEventListener("click", handleMovieCardClick);
 
 function initModalHandlers() {
   const modalOverlay = document.querySelector(".modal-overlay");
@@ -265,7 +268,6 @@ function initModalHandlers() {
 }
 
 async function controlUpcomingSection() {
-  const upcomingSection = document.querySelector("#upcoming-section");
   const selectorBtns = upcomingSection.querySelectorAll(".selector-btn");
 
   model.state.currentUpcoming = { mediaType: "movie", endpoint: "upcoming" };
