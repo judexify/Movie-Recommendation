@@ -21,7 +21,8 @@
     ></script>
 
     <script type="module" src="./js/script.js" defer></script>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="./styles/style.css" />
+    <link rel="stylesheet" href="./styles/query.css" />
   </head>
   <body>
     <header>
@@ -45,6 +46,13 @@
               >
                 <ion-icon name="call-outline"></ion-icon>
                 <p class="nav-link">Contact Us</p></a
+              >
+            </li>
+
+            <li class="link">
+              <a href="#" class="nav-links">
+                <ion-icon name="bookmark-outline"></ion-icon>
+                <p class="nav-link">Bookmarks</p></a
               >
             </li>
           </ul>
@@ -84,6 +92,9 @@
           </button>
           <button class="tablinks" id="popular" data-tab="popular">
             POPULAR
+          </button>
+          <button class="tablinks" id="upcoming" data-tab="upcoming">
+            UPCOMING
           </button>
 
           <button class="tablinks" id="top-rated" data-tab="top-rated">
@@ -126,7 +137,29 @@
           <h3>POPULAR</h3>
           <p>THIS IS THE POPULAR SECTION</p>
         </div>
-
+        <div id="upcoming-section" class="tabcontent hidden">
+          <div class="media-type-selector">
+            <button
+              class="selector-btn active"
+              data-media="movie"
+              data-endpoint="upcoming"
+            >
+              <ion-icon name="film-outline"></ion-icon>
+              <span>Upcoming Movies</span>
+            </button>
+            <button
+              class="selector-btn"
+              data-media="tv"
+              data-endpoint="airing_today"
+            >
+              <ion-icon name="tv-outline"></ion-icon>
+              <span>Airing Today (TV)</span>
+            </button>
+          </div>
+          <div class="upcoming-content">
+            <!-- Content will be populated here -->
+          </div>
+        </div>
         <div id="top-rated-section" class="tabcontent hidden">
           <h3>TOP RATED</h3>
           <p>THIS IS THE TOPRATED SECTION</p>
@@ -139,7 +172,6 @@
         </div>
       </section>
     </main>
-
     <div class="modal-overlay hidden">
       <div class="modal-container">
         <button class="modal-close">

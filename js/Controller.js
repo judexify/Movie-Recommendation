@@ -67,6 +67,7 @@ function init() {
   showTabFromURL();
   controlPagination();
   initModalHandlers();
+  controlUpcomingSection();
 }
 
 form.addEventListener("submit", function (e) {
@@ -113,6 +114,7 @@ async function controlFetchedTrendingData() {
   const squares = document.querySelectorAll(".square");
 
   const state = model.state;
+
   // Pause on hover
   trendingMovies.addEventListener("mouseenter", () => {
     state.carousel.isHovered = true;
@@ -164,11 +166,46 @@ function showTabFromURL() {
 }
 
 async function controlPagination() {
+  const allPages = pagination.querySelectorAll(".pages");
+
+  allPages.forEach((page) => {
+    page.addEventListener("click", async function (e) {
+      e.preventDefault();
+
+      allPages.forEach((p) => p.classList.remove("active"));
+
+      this.classList.add("active");
+
+      const pageNumber = +this.dataset.id;
+
+      // i am checking which tab is active
+      const activeTab = document.querySelector(".tabs button.active");
+      const tabId = activeTab?.dataset.tab;
+
+      const stateTabHandlers = {
+        upcoming: async () => {
+          const { mediaType, endpoint } = model.state.currentUpcoming || {
+            mediaType: "movie",
+            endpoint: "upcoming",
+          };
+          await loadUpcoming(mediaType, endpoint, pageNumber);
+        },
+        trending: async () => {
+          const data = await model.fetchTrendingMovies(pageNumber);
+          controlFetchedDataForTrending(data);
+        },
+      };
+
+      if (stateTabHandlers[tabId]) {
+        await stateTabHandlers[tabId]();
+      }
+    });
+  });
+
   pagination.addEventListener("click", async function (e) {
     e.preventDefault();
     const target = e.target;
 
-    const allPages = pagination.querySelectorAll(".pages");
     allPages.forEach((page) => page.classList.remove("active"));
 
     target.classList.add("active");
@@ -176,6 +213,8 @@ async function controlPagination() {
     const targetid = +target.dataset.id;
 
     const data = await model.fetchTrendingMovies(targetid);
+    // const upcomingData = await model.fetchUpcomingMedia(_, _, targetid);
+    // console.log(upcomingData);
     controlFetchedDataForTrending(data);
   });
 }
@@ -224,3 +263,44 @@ function initModalHandlers() {
     }
   });
 }
+
+async function controlUpcomingSection() {
+  const upcomingSection = document.querySelector("#upcoming-section");
+  const selectorBtns = upcomingSection.querySelectorAll(".selector-btn");
+
+  model.state.currentUpcoming = { mediaType: "movie", endpoint: "upcoming" };
+
+  handleSelectorClick(selectorBtns);
+
+  await loadUpcoming("movie", "upcoming", 1);
+}
+
+function handleSelectorClick(selectorBtns) {
+  selectorBtns.forEach((btn) => {
+    btn.addEventListener("click", async function () {
+      selectorBtns.forEach((b) => b.classList.remove("active"));
+
+      this.classList.add("active");
+
+      const mediaType = this.dataset.media;
+      const endpoint = this.dataset.endpoint;
+
+      model.state.currentUpcoming = { mediaType, endpoint };
+
+      await loadUpcoming(mediaType, endpoint, 1);
+    });
+  });
+}
+
+const loadUpcoming = async function (mediaType, endpoint, page = 1) {
+  const upcomingSection = document.querySelector("#upcoming-section");
+  const upcomingContent = upcomingSection.querySelector(".upcoming-content");
+
+  try {
+    view.generateMarkupSpinner(upcomingContent, 4.8, 4.8, "spinner-centered");
+    const data = await model.fetchUpcomingMedia(mediaType, endpoint, page);
+    view.displayUpcomingContent(data, upcomingSection);
+  } catch (error) {
+    console.error("Error loading upcoming:", error);
+  }
+};

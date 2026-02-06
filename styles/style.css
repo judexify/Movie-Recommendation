@@ -92,7 +92,7 @@ html {
 }
 
 /* Modal Content */
-.modal-content {
+.modal-content-for {
   background: linear-gradient(180deg, #12122a 0%, #1c1c3a 100%);
   border-radius: 12px;
   padding: 4rem;
@@ -100,7 +100,7 @@ html {
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
 }
 
-.modal-content p {
+.modal-content-for p {
   font-size: 1.2rem;
   font-weight: 600;
   color: #e5e7eb;
@@ -116,7 +116,7 @@ body {
   max-width: 60rem;
   background-color: #0a0a14;
   position: relative;
-  background-image: url(./img/background\ image.jpeg);
+  background-image: url(../img/background\ image.jpeg);
   background-size: cover;
   background-attachment: fixed;
   background-position: center;
@@ -462,6 +462,77 @@ main {
 .tabcontent.hidden {
   display: none;
 }
+#upcoming {
+  position: relative;
+}
+#upcoming::after {
+  content: "🔥";
+  position: absolute;
+  background-color: #ffd700;
+  border-radius: 50%;
+  top: -9%;
+  box-shadow: 0 0 20px rgba(237, 255, 45, 0.4);
+  animation: pop-loop 2s ease-in-out infinite;
+}
+
+@keyframes pop-loop {
+  0% {
+    transform: translateY(6px) scale(0.7);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(-2px) scale(1.15);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(6) scale(0.7);
+    opacity: 0;
+  }
+}
+
+.media-type-selector {
+  display: flex;
+  gap: 1.6rem;
+  margin-bottom: 2.4rem;
+  justify-content: center;
+}
+
+.selector-btn {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(255, 45, 85, 0.1);
+  border: 2px solid rgba(255, 45, 85, 0.2);
+  padding: 1.2rem 2.4rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #94a3b8;
+}
+
+.selector-btn ion-icon {
+  font-size: 2rem;
+}
+
+.selector-btn:hover {
+  background: rgba(255, 45, 85, 0.2);
+  border-color: #ff2d55;
+  transform: translateY(-2px);
+}
+
+.selector-btn.active {
+  background: #ff2d55;
+  border-color: #ff2d55;
+  color: #e5e7eb;
+}
+
+.selector-btn.active ion-icon {
+  color: #e5e7eb;
+}
+
 .movie-card {
   background: linear-gradient(135deg, #1c1c3a 0%, #12122a 100%);
   border-radius: 12px;
@@ -966,35 +1037,4 @@ main {
   border-radius: 12px;
   border: 2px solid rgba(255, 45, 85, 0.2);
   max-width: 80rem;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .modal-container {
-    max-height: 95vh;
-  }
-
-  .modal-main-content {
-    grid-template-columns: 1fr;
-  }
-
-  .modal-poster-section {
-    position: static;
-  }
-
-  .modal-title {
-    font-size: 3.2rem;
-  }
-
-  .modal-backdrop-wrapper {
-    height: 25rem;
-  }
-
-  .modal-stats {
-    gap: 1.2rem;
-  }
-
-  .modal-cast {
-    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
-  }
 }

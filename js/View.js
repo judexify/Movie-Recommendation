@@ -24,7 +24,7 @@ export function showmodal(message = "You are good to go") {
   modal.className = "modal";
 
   const modalContent = document.createElement("div");
-  modalContent.className = "modal-content";
+  modalContent.className = "modal-content-for";
 
   const text = document.createElement("p");
   text.textContent = message;
@@ -53,8 +53,6 @@ export const setupInfiniteScroll = function (element, parentEl) {
 
 export const displayTrendingForCarousel = function (dataArr, parentEl) {
   const slicedDataArr = dataArr.slice(0, 9);
-
-  console.log(slicedDataArr);
 
   const squaresMarkup = slicedDataArr
     .map((data) => {
@@ -290,4 +288,39 @@ export const hideModal = function () {
   const modalOverlay = document.querySelector(".modal-overlay");
   modalOverlay.classList.add("hidden");
   document.body.style.overflow = "";
+};
+
+export const displayUpcomingContent = function (data, container) {
+  const slicedData = data.slice(0, 9);
+
+  const markup = slicedData
+    .map((item) => {
+      return `<div class="movie-card" data-id="${item.id}" data-mediatype="${item.media_type || (item.title ? "movie" : "tv")}">
+        <div class="movie-poster">
+          <img
+            src="https://image.tmdb.org/t/p/w500${item.poster_path}"
+            alt="${item.title || item.name}"
+          />
+          <span class="media-type">${item.media_type || (item.title ? "movie" : "tv")}</span>
+        </div>
+        <div class="movie-info">
+          <h3 class="movie-title">${item.title || item.name}</h3>
+          <p class="release-date">${item.release_date || item.first_air_date || "TBA"}</p>
+          <p class="movie-overview">
+          ${item.overview || "No Overview Available! Check Back Later."}
+          </p>
+          <ul class="movie-meta">
+            <li class="rating">
+              <ion-icon name="star"></ion-icon>
+              <span>${item.vote_average === 0 ? 5 : item.vote_average.toFixed(1)}</span>
+            </li>
+            <li class="vote-count">${item.vote_count === 0 ? 1 : item.vote_count} votes</li>
+            <li class="read-more">Read More</li>
+          </ul>
+        </div>
+      </div>`;
+    })
+    .join("");
+
+  container.querySelector(".upcoming-content").innerHTML = markup;
 };

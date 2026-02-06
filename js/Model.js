@@ -4,6 +4,10 @@ import { API_URL } from "./config.js";
 export const state = {
   query: "",
   carousel: { scrollPosition: 0, scrollSpeed: 1, isHovered: false },
+  currentUpcoming: {
+    mediaType: "movie",
+    endpoint: "upcoming",
+  },
 };
 
 export const setQuery = function (query) {
@@ -19,6 +23,23 @@ export const fetchTrendingMovies = async function (pages = 1) {
     return data.results;
   } catch (err) {
     console.error("Failed to fetch trending movies:", err);
+    throw err;
+  }
+};
+
+export const fetchUpcomingMedia = async function (
+  mediaType = "movie",
+  endpoint = "upcoming",
+  page = 1,
+) {
+  try {
+    const data = await getJSON(API_URL, `${mediaType}/${endpoint}`, page);
+
+    console.log(data);
+
+    return data.results;
+  } catch (err) {
+    console.error("Failed to fetch upcoming media:", err);
     throw err;
   }
 };
