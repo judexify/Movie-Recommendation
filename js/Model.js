@@ -25,8 +25,6 @@ export const fetchTrendingMovies = async function (pages = 1) {
   try {
     const data = await getJSON(API_URL, "trending/all/day", pages);
 
-    console.log(data);
-
     return data.results;
   } catch (err) {
     console.error("Failed to fetch trending movies:", err);
@@ -42,8 +40,6 @@ export const fetchUpcomingMedia = async function (
   try {
     const data = await getJSON(API_URL, `${mediaType}/${endpoint}`, page);
 
-    console.log(data);
-
     return data.results;
   } catch (err) {
     console.error("Failed to fetch upcoming media:", err);
@@ -57,8 +53,6 @@ export const fetchMediaDetails = async function (mediaType, mediaId) {
       API_URL,
       `${mediaType}/${mediaId}?append_to_response=credits,videos,watch/providers`,
     );
-
-    console.log(data);
 
     return data;
   } catch (err) {
@@ -79,8 +73,6 @@ export const fetchPopularandTopRatedMedia = async function (
   // https://api.themoviedb.org/3/tv/top_rated
   try {
     const data = await getJSON(API_URL, `/${mediaType}/${category}`, page);
-
-    console.log(data);
 
     return data.results;
   } catch (err) {
@@ -109,8 +101,6 @@ export const searchMedia = async function (query) {
       API_URL,
       `search/multi?query=${encodeURIComponent(query)}`,
     );
-
-    console.log(data);
 
     return data.results;
   } catch (err) {

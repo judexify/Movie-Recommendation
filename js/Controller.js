@@ -201,7 +201,7 @@ async function controlFetchedTrendingData() {
   controlFetchedDataForTrending(trendingMoviesArr);
   view.displayTrendingForCarousel(trendingMoviesArr, header);
 
-  const trendingMovies = document.querySelector(".trending-movies");
+  const trendingMovies = header.querySelector(".trending-movies");
   const squares = document.querySelectorAll(".square");
 
   const state = model.state;

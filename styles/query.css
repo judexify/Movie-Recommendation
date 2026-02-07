@@ -1,204 +1,22 @@
-/* ===================================
-   MEDIA QUERIES - CONTENT-BASED BREAKPOINTS
-   Mobile-first approach with earned breakpoints
-   =================================== */
+@media (min-width: 75em) {
+  body {
+    max-width: 110rem;
+  }
 
-/* BASE MOBILE FIXES */
-/* These fixes apply to the base mobile styles before any breakpoints */
+  .header-items {
+    max-width: 110rem;
+  }
 
-/* Tabbed component - horizontal scroll for smaller screens */
-.tabs {
-  overflow-x: auto;
-  overflow-y: hidden;
-  flex-wrap: nowrap;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 45, 85, 0.3) rgba(255, 45, 85, 0.1);
-}
-
-.tabs::-webkit-scrollbar {
-  height: 4px;
-}
-
-.tabs::-webkit-scrollbar-track {
-  background: rgba(255, 45, 85, 0.1);
-  border-radius: 4px;
-}
-
-.tabs::-webkit-scrollbar-thumb {
-  background: rgba(255, 45, 85, 0.3);
-  border-radius: 4px;
-}
-
-.tabs::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 45, 85, 0.5);
-}
-
-.tabs button {
-  flex-shrink: 0;
-  white-space: nowrap;
-}
-
-/* Movie card title - reduced font size */
-.movie-title {
-  font-size: 1.6rem;
-}
-
-/* Navigation icons - proper sizing */
-.nav-links > ion-icon {
-  font-size: 2rem;
-  flex-shrink: 0;
-}
-
-/* SMALL TABLET BREAKPOINT - 600px
-   Triggered when: Navigation becomes cramped, 
-   search results need better layout spacing */
-
-@media (min-width: 37.5em) {
-  /* Navigation improvements */
   nav {
-    width: 35%;
-    padding: 4.8rem 2.4rem 0;
+    width: 22%;
   }
 
-  .links {
-    gap: 3.2rem;
-  }
-
-  .nav-link {
-    font-size: 2.4rem;
-  }
-
-  .nav-links > ion-icon {
-    font-size: 2.2rem;
-  }
-
-  /* Search results breathing room */
-  .search-result-item {
-    padding: 1.6rem 2.4rem;
-  }
-
-  .search-result-poster {
-    width: 8rem;
-    height: 12rem;
-  }
-
-  .search-result-title {
-    font-size: 1.8rem;
-  }
-
-  .search-result-meta {
-    font-size: 1.4rem;
-  }
-
-  .search-result-overview {
-    max-height: 6rem;
-    font-size: 1.4rem;
-  }
-
-  /* Movie cards enhanced layout */
-  .movie-card {
-    padding: 2.4rem;
-    gap: 2.4rem;
-  }
-
-  .movie-poster {
-    width: 14rem;
-    height: 18rem;
-  }
-
-  .movie-title {
-    font-size: 1.8rem;
-  }
-
-  .movie-overview {
-    max-height: 6rem;
-    font-size: 1.4rem;
-  }
-
-  /* Trending section wider cards */
-  .square {
-    min-width: 24rem;
-    height: 24rem;
-  }
-
-  /* Modal adjustments */
-  .modal-title {
-    font-size: 3.6rem;
-  }
-
-  .modal-stat {
-    padding: 1.4rem 2rem;
-  }
-
-  .modal-stat span {
-    font-size: 1.5rem;
-  }
-}
-
-/* TABLET/SMALL DESKTOP BREAKPOINT - 900px
-   Triggered when: Modal can support two-column layout,
-   trending section benefits from more cards visible */
-
-@media (min-width: 56.25em) {
-  /* Header enhancements */
   .body-container {
-    gap: 4.8rem;
-    padding: 0 3.6rem;
+    max-width: 100rem;
   }
 
-  .movie-description {
-    font-size: 2.4rem;
-  }
-
-  /* Navigation full experience */
-  nav {
-    width: 30%;
-    padding: 6.4rem 3.6rem 0;
-  }
-
-  .links {
-    gap: 4.8rem;
-  }
-
-  .nav-links {
-    padding: 1.4rem 1.6rem;
-  }
-
-  .nav-link {
-    font-size: 2.8rem;
-  }
-
-  .nav-links > ion-icon {
-    font-size: 2.4rem;
-  }
-
-  /* Input section comfortable spacing */
-  .inputContainer {
-    gap: 4.8rem;
-    padding: 3.6rem;
-  }
-
-  .input-wrapper input[type="text"] {
-    padding: 2rem 2.4rem;
-    font-size: 1.8rem;
-  }
-
-  .input-form button {
-    width: 60%;
-    padding: 2rem 3.6rem;
-    font-size: 1.6rem;
-  }
-
-  /* Trending section optimal view */
-  .square {
-    min-width: 28rem;
-    height: 28rem;
-  }
-
-  /* Movie cards full information display */
   .movie-card {
-    padding: 2.4rem;
-    gap: 3.2rem;
+    max-width: 80rem;
   }
 
   .movie-poster {
@@ -206,196 +24,42 @@
     height: 22rem;
   }
 
-  .movie-title {
-    font-size: 2rem;
+  .modal-container {
+    max-width: 140rem;
   }
 
-  .movie-overview {
-    max-height: 7.5rem;
-    font-size: 1.5rem;
-  }
-
-  .movie-meta {
-    font-size: 1.4rem;
-    gap: 2.4rem;
-  }
-
-  /* Tabbed section wider tabs */
-  .tabs {
-    gap: 1.6rem;
-    padding: 1.2rem;
-  }
-
-  .tabs button {
-    padding: 1.6rem 2.4rem;
-    font-size: 1.6rem;
-  }
-
-  /* Modal two-column layout */
   .modal-backdrop-wrapper {
-    height: 50rem;
+    height: 55rem;
   }
 
   .modal-title {
-    font-size: 5.6rem;
-  }
-
-  .modal-tagline {
-    font-size: 2rem;
-  }
-
-  .modal-body {
-    padding: 0 4.8rem 4.8rem 4.8rem;
-  }
-
-  .modal-main-content {
-    grid-template-columns: 32rem 1fr;
-    gap: 4.8rem;
+    font-size: 6.4rem;
   }
 
   .modal-overview {
-    font-size: 1.6rem;
-  }
-
-  .modal-cast {
-    grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
-    gap: 2.4rem;
-  }
-
-  .cast-member img,
-  .cast-placeholder {
-    width: 12rem;
-    height: 12rem;
-  }
-
-  .cast-name {
-    font-size: 1.5rem;
-  }
-
-  .cast-character {
-    font-size: 1.3rem;
+    font-size: 1.7rem;
   }
 }
 
-/* DESKTOP BREAKPOINT - 1200px
-   Triggered when: Content can breathe at maximum readability,
-   modal supports full cinematic experience */
-
-@media (min-width: 75em) {
-  /* Maximum comfortable reading width maintained */
+@media (min-width: 56.25em) {
   body {
-    max-width: 72rem;
+    max-width: 90rem;
   }
 
   .header-items {
-    max-width: 72rem;
+    max-width: 90rem;
   }
 
-  /* Navigation premium spacing */
   nav {
-    width: 28rem;
-    padding: 7.2rem 4.8rem 0;
+    width: 26%;
   }
 
-  .links {
-    gap: 5.6rem;
-  }
-
-  .nav-links {
-    gap: 1.4rem;
-    padding: 1.6rem 2rem;
-  }
-
-  .nav-link {
-    font-size: 3.2rem;
-  }
-
-  .nav-links > ion-icon {
-    font-size: 2.8rem;
-  }
-
-  ion-icon[name="close-outline"] {
-    font-size: 3.2rem;
-    top: 1.6rem;
-    right: 2.4rem;
-  }
-
-  /* Hero section maximum impact */
-  .body-container {
-    gap: 6.4rem;
-    padding: 0 4.8rem;
-  }
-
-  .movie-description {
-    font-size: 2.8rem;
-  }
-
-  .recommend-btn {
-    padding: 2.4rem 3.6rem;
-    font-size: 1.4rem;
-  }
-
-  /* Trending section full cards */
   .trending-movies {
     gap: 2.4rem;
   }
 
   .square {
-    min-width: 32rem;
-    height: 32rem;
-  }
-
-  /* Input section spacious */
-  .inputContainer {
-    gap: 6.4rem;
-    padding: 4.8rem;
-    max-width: 60rem;
-  }
-
-  .input-wrapper input[type="text"] {
-    padding: 2.4rem 3.2rem;
-    font-size: 2rem;
-  }
-
-  .input-form button {
-    width: 50%;
-    padding: 2.4rem 4.8rem;
-    font-size: 1.8rem;
-  }
-
-  /* Search results premium layout */
-  .search-result-item {
-    padding: 2.4rem 3.2rem;
-    gap: 2.4rem;
-  }
-
-  .search-result-poster {
-    width: 10rem;
-    height: 15rem;
-  }
-
-  .search-result-title {
-    font-size: 2rem;
-  }
-
-  .search-result-meta {
-    font-size: 1.5rem;
-  }
-
-  .search-result-overview {
-    max-height: 7.5rem;
-    font-size: 1.5rem;
-  }
-
-  /* Movie cards maximum detail */
-  .movie-card {
-    padding: 3.2rem;
-    gap: 3.6rem;
-    margin-bottom: 2.4rem;
-  }
-
-  .movie-poster {
-    width: 18rem;
+    min-width: 24rem;
     height: 24rem;
   }
 
@@ -403,127 +67,57 @@
     font-size: 2.2rem;
   }
 
-  .release-date {
-    font-size: 1.4rem;
-  }
-
-  .movie-overview {
-    max-height: 9rem;
-    font-size: 1.6rem;
-  }
-
-  .movie-meta {
-    font-size: 1.5rem;
-    gap: 3.2rem;
-  }
-
-  /* Tabbed section refined */
-  .tabs {
-    gap: 2.4rem;
-    padding: 1.6rem;
-  }
-
-  .tabs button {
-    padding: 2rem 3.2rem;
-    font-size: 1.8rem;
-  }
-
-  .tabcontent {
-    padding: 3.6rem;
-  }
-
-  /* Modal cinematic experience */
-  .modal-container {
-    max-width: 140rem;
+  .modal-title {
+    font-size: 5.6rem;
   }
 
   .modal-backdrop-wrapper {
-    height: 60rem;
-  }
-
-  .modal-title {
-    font-size: 6.4rem;
-  }
-
-  .modal-tagline {
-    font-size: 2.4rem;
-  }
-
-  .modal-title-section {
-    bottom: 4.8rem;
-    left: 4.8rem;
-    right: 4.8rem;
-  }
-
-  .modal-body {
-    padding: 0 6.4rem 6.4rem 6.4rem;
+    height: 48rem;
   }
 
   .modal-main-content {
-    grid-template-columns: 36rem 1fr;
-    gap: 6.4rem;
+    grid-template-columns: 32rem 1fr;
   }
 
-  .modal-stats {
-    gap: 3.2rem;
+  .cast-member img {
+    width: 12rem;
+    height: 12rem;
+  }
+}
+
+@media (min-width: 37.5em) {
+  nav {
+    width: 32%;
   }
 
-  .modal-stat {
-    padding: 1.6rem 2.4rem;
+  .input-form button {
+    width: 60%;
   }
 
-  .modal-stat ion-icon {
-    font-size: 2.4rem;
+  .media-type-selector {
+    justify-content: space-between;
   }
 
-  .modal-stat span {
-    font-size: 1.6rem;
+  .movie-card {
+    gap: 2.4rem;
+    padding: 2.4rem;
   }
 
-  .modal-overview {
-    font-size: 1.8rem;
-    line-height: 2;
-  }
-
-  .genre-tag {
-    padding: 1rem 2rem;
-    font-size: 1.4rem;
-  }
-
-  .modal-cast {
-    grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
-    gap: 3.2rem;
-  }
-
-  .cast-member img,
-  .cast-placeholder {
+  .movie-poster {
     width: 14rem;
-    height: 14rem;
+    height: 18rem;
   }
 
-  .cast-placeholder ion-icon {
-    font-size: 5rem;
+  .modal-main-content {
+    grid-template-columns: 25rem 1fr;
   }
 
-  .cast-name {
-    font-size: 1.6rem;
+  .tabs {
+    justify-content: center;
   }
 
-  .cast-character {
-    font-size: 1.4rem;
-  }
-
-  .provider-item img {
-    width: 7rem;
-    height: 7rem;
-  }
-
-  .provider-item span {
-    font-size: 1.3rem;
-  }
-
-  .pagination a {
-    padding: 1.4rem 2rem;
-    font-size: 1.5rem;
+  .tabs button {
+    flex: 0;
+    min-width: 12rem;
   }
 }

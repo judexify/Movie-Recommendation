@@ -283,6 +283,9 @@ export const showModalForDetailedMov = function (data) {
 
   const markup = generateModalMarkup(data);
   modalContent.innerHTML = markup;
+  modalContent.addEventListener("click", (e) => {
+    if (e.target.closest(".modal-close-btn")) hideModal();
+  });
   modalOverlay.classList.remove("hidden");
   document.body.style.overflow = "hidden";
 };
