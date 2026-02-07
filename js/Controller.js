@@ -107,8 +107,24 @@ function autoScroll(trendingMovies) {
 }
 
 async function controlFetchedTrendingData() {
-  view.generateMarkupSpinner(trendingSection, 4.8, 4.8, "spinner-centered");
+  const headerSpinner = view.generateMarkupSpinner(
+    header,
+    4.8,
+    4.8,
+    "spinner-centered",
+  );
+  const sectionSpinner = view.generateMarkupSpinner(
+    trendingSection,
+    4.8,
+    4.8,
+    "spinner-centered",
+  );
+
   const trendingMoviesArr = await model.fetchTrendingMovies();
+
+  if (headerSpinner) headerSpinner.remove();
+  if (sectionSpinner) sectionSpinner.remove();
+
   controlFetchedDataForTrending(trendingMoviesArr);
   view.displayTrendingForCarousel(trendingMoviesArr, header);
 
