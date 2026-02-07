@@ -10,37 +10,86 @@ const header = document.querySelector("header");
 const moviesSection = document.querySelector(".movies-section");
 const form = document.querySelector(".input-form");
 const inputField = document.querySelector('input[name="query"]');
-const inputWrapper = document.querySelector(".input-wrapper");
 const tabs = document.querySelectorAll(".tabs button");
 const trendingSection = document.querySelector("#trending-section");
 const pagination = document.querySelector(".pagination");
 const topRatedSection = document.querySelector("#toprated-section");
 const upcomingSection = document.querySelector("#upcoming-section");
 const popularSection = document.querySelector("#popular-section");
+const inputResult = document.querySelector(".input-result");
 
 document.addEventListener("DOMContentLoaded", init);
 
-const addSpinnerToInput = function () {
-  let typingTimeout;
-  let spinnerTimeout;
-
+let searchTimeout;
+const handleSearchInput = function () {
   inputField.addEventListener("input", function () {
-    clearTimeout(typingTimeout);
-    clearTimeout(spinnerTimeout);
+    clearTimeout(searchTimeout);
 
-    const existingSpinner = inputWrapper.querySelector(".spinner");
-    if (existingSpinner) existingSpinner.remove();
+    const query = inputField.value.trim();
 
-    if (inputField.value.trim().length > 0) {
-      typingTimeout = setTimeout(() => {
-        const spinner = view.generateMarkupSpinner(inputWrapper, 2.4, 2.4);
+    if (query.length === 0) {
+      view.hideSearchResults();
+      view.clearSearchResults();
+      return;
+    }
+    if (query.length < 2) return;
 
-        spinnerTimeout = setTimeout(() => {
-          if (spinner) {
-            spinner.remove();
-          }
-        }, 2000);
-      }, 300);
+    view.showSearchResults();
+    inputResult.innerHTML = "";
+    const spinner = view.generateMarkupSpinner(
+      inputResult,
+      3.2,
+      3.2,
+      "spinner-centered",
+    );
+
+    // DEBOUNCE SEARCH
+
+    //  WITHOUT DEBOUNCE
+    //     User types: "I r o n   M a n"
+    // API calls:  ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
+    //             I Ir Iro Iron Iron_ Iron_M Iron_Ma Iron_Man
+
+    // Result: 8 API calls!  Wasteful and slow
+
+    //  WITH DEBOUNCE
+    // User types: "I r o n   M a n"
+    // Timer:      Start→Cancel→Cancel→Cancel→Cancel→Cancel→Cancel→WAIT 500ms→Fire!
+    // API calls:  (none until typing stops)                                    ↓
+    //                                                                     "Iron Man"
+
+    // Result: 1 API call!  Efficient
+
+    searchTimeout = setTimeout(async () => {
+      try {
+        const results = await model.searchMedia(query);
+
+        if (spinner) spinner.remove();
+        view.displaySearchResults(results, inputResult);
+      } catch (err) {
+        console.error("Search Error", err);
+        if (spinner) spinner.remove();
+        view.showmodal("Error loading results. Please try again.");
+      }
+    }, 500);
+  });
+
+  inputResult.addEventListener("click", async function (e) {
+    const resultItem = e.target.closest(".search-result-item");
+
+    const movieId = resultItem.dataset.id;
+    const mediaType = resultItem.dataset.mediatype;
+
+    view.hideSearchResults();
+    inputField.value = "";
+
+    try {
+      const details = await model.fetchMediaDetails(mediaType, movieId);
+
+      view.showModalForDetailedMov(details);
+    } catch (error) {
+      console.error("Error loading details:", error);
+      view.showmodal("Failed to load details. Please try again.");
     }
   });
 };
@@ -63,7 +112,7 @@ function init() {
   });
 
   controlFetchedTrendingData();
-  addSpinnerToInput();
+  handleSearchInput();
   showTabFromURL();
   controlPagination();
   initModalHandlers();
@@ -72,18 +121,42 @@ function init() {
   controlTopRatedSection();
 }
 
-form.addEventListener("submit", function (e) {
+form.addEventListener("submit", async function (e) {
   e.preventDefault();
 
-  const formData = new FormData(form);
-  const data = Object.fromEntries(formData.entries());
-
-  const query = data.query?.trim();
+  const query = inputField.value.trim();
 
   if (!query) {
     view.showmodal("Invalid! You didnt input any query.");
+    return;
   }
+
   model.setQuery(query);
+
+  try {
+    view.showSearchResults();
+    inputResult.innerHTML = "";
+    const spinner = view.generateMarkupSpinner(
+      inputResult,
+      3.2,
+      3.2,
+      "spinner-centered",
+    );
+
+    const results = await model.searchMedia(query);
+
+    if (spinner) spinner.remove();
+
+    view.displaySearchResults(results, inputResult);
+  } catch (err) {
+    console.error("Search error:", err);
+
+    const existingSpinner = inputResult.querySelector(".spinner-centered");
+    if (existingSpinner) existingSpinner.remove();
+
+    inputResult.innerHTML =
+      '<p class="input-result-none">Error loading results. Please try again.</p>';
+  }
 
   console.log(model.state.query);
 });
@@ -261,7 +334,7 @@ const handleMovieCardClick = async function (e) {
 
 function initModalHandlers() {
   const modalOverlay = document.querySelector(".modal-overlay");
-  const modalClose = document.querySelector(".modal-close");
+  const modalClose = document.querySelector(".modal-close-btn");
 
   if (modalClose) {
     modalClose.addEventListener("click", view.hideModal);
@@ -374,3 +447,9 @@ const loadPopular = async function (mediaType, page = 1) {
 const loadTopRated = async function (mediaType, page = 1) {
   await loadMediaSection("toprated", mediaType, "top_rated", page);
 };
+
+// document.addEventListener("click", function (e) {
+//   if (!e.target.closest(".inputContainer")) {
+//     view.hideSearchResults();
+//   }
+// });

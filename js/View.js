@@ -125,14 +125,17 @@ export const generateModalMarkup = function (data) {
   // Get top 5 cast members
   const cast = data.credits?.cast?.slice(0, 5) || [];
 
-  //  genres
-  const genres = data.genres?.map((g) => g.name).join(", ") || "N/A";
-
-  // streaming providers
+  // Get streaming providers
   const providers = data["watch/providers"]?.results?.US?.flatrate || [];
 
   return `
     <div class="modal-header">
+      <div class="modal-header-actions">
+        <button class="modal-close-btn">
+          <ion-icon name="close-outline"></ion-icon>
+        </button>
+      </div>
+      
       <div class="modal-backdrop-wrapper">
         ${
           data.backdrop_path
@@ -149,6 +152,7 @@ export const generateModalMarkup = function (data) {
     </div>
 
     <div class="modal-body">
+      <!-- Rest of your modal content stays the same -->
       <div class="modal-main-content">
         <div class="modal-poster-section">
           ${
@@ -335,4 +339,79 @@ export const displayPopularContent = function (data, container) {
 
 export const displayTopRatedContent = function (data, container) {
   displayMediaContent(data, container, "toprated");
+};
+
+// Display search results
+export const displaySearchResults = function (results, container) {
+  if (!results || results.length === 0) {
+    container.innerHTML =
+      '<p class="input-result-none">No results found. Try a different search term.</p>';
+    return;
+  }
+
+  const filteredResults = results
+    .filter((item) => item.poster_path || item.profile_path)
+    .slice(0, 10);
+
+  if (filteredResults.length === 0) {
+    container.innerHTML =
+      '<p class="input-result-none">No results found. Try a different search term.</p>';
+    return;
+  }
+
+  const markup = filteredResults
+    .map((item) => {
+      const mediaType = item.media_type || "movie";
+      const title = item.title || item.name;
+      const releaseDate = item.release_date || item.first_air_date;
+      const posterPath = item.poster_path || item.profile_path;
+
+      return `
+        <div class="search-result-item" data-id="${item.id}" data-mediatype="${mediaType}">
+          <div class="search-result-poster">
+            ${
+              posterPath
+                ? `<img src="https://image.tmdb.org/t/p/w200${posterPath}" alt="${title}" />`
+                : `<div class="search-result-poster-placeholder"><ion-icon name="film-outline"></ion-icon></div>`
+            }
+          </div>
+          <div class="search-result-info">
+            <h4 class="search-result-title">${title}</h4>
+            <div class="search-result-meta">
+              <span class="media-type-badge">${mediaType.toUpperCase()}</span>
+              ${releaseDate ? `<span>${releaseDate.split("-")[0]}</span>` : ""}
+              ${item.vote_average ? `<span>⭐ ${item.vote_average.toFixed(1)}</span>` : ""}
+            </div>
+            ${item.overview ? `<p class="search-result-overview">${item.overview}</p>` : ""}
+          </div>
+        </div>
+      `;
+    })
+    .join("");
+
+  container.innerHTML = markup;
+};
+
+// i want to show seacrh results
+export const showSearchResults = function () {
+  const inputResult = document.querySelector(".input-result");
+  if (inputResult) {
+    inputResult.classList.remove("hidden");
+  }
+};
+
+// i want to hide seacrh results
+export const hideSearchResults = function () {
+  const inputResult = document.querySelector(".input-result");
+  if (inputResult) {
+    inputResult.classList.add("hidden");
+  }
+};
+
+// i want to Clear search results
+export const clearSearchResults = function () {
+  const inputResult = document.querySelector(".input-result");
+  if (inputResult) {
+    inputResult.innerHTML = "";
+  }
 };

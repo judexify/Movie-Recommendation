@@ -102,3 +102,19 @@ export const fetchTopRatedMedia = async function (
 ) {
   return fetchPopularandTopRatedMedia(mediaType, "top_rated", page);
 };
+
+export const searchMedia = async function (query) {
+  try {
+    const data = await getJSON(
+      API_URL,
+      `search/multi?query=${encodeURIComponent(query)}`,
+    );
+
+    console.log(data);
+
+    return data.results;
+  } catch (err) {
+    console.error("Failed to search media:", err);
+    throw err;
+  }
+};
