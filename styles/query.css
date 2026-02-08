@@ -106,6 +106,16 @@
     font-size: 2rem;
   }
 
+  .modal-tagline {
+    font-size: 1.6rem;
+  }
+
+  .modal-title-section {
+    bottom: 2.4rem;
+    left: 2.4rem;
+    right: 2.4rem;
+  }
+
   .selector-btn {
     padding: 1.2rem 2.4rem;
     font-size: 1.4rem;
@@ -120,11 +130,11 @@
   }
 
   .modal-backdrop-wrapper {
-    height: 35rem;
+    height: 30rem;
   }
 
   .modal-title {
-    font-size: 4rem;
+    font-size: 3.6rem;
   }
 
   .modal-main-content {
@@ -138,6 +148,37 @@
 
   .inputContainer {
     max-width: 60rem;
+  }
+
+  .modal-section-title {
+    font-size: 2rem;
+  }
+
+  .modal-overview {
+    font-size: 1.5rem;
+  }
+
+  .modal-stat span {
+    font-size: 1.4rem;
+  }
+
+  .modal-trailer iframe {
+    height: 25rem;
+  }
+
+  .modal-cast {
+    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  }
+
+  .cast-member img,
+  .cast-placeholder {
+    width: 9rem;
+    height: 9rem;
+  }
+
+  .provider-item img {
+    width: 5.5rem;
+    height: 5.5rem;
   }
 }
 
@@ -201,7 +242,119 @@
   }
 
   .modal-cast {
-    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  }
+
+  .modal-main-content {
+    display: grid;
+    grid-template-columns: 30rem 1fr;
+    gap: 3rem;
+  }
+
+  .modal-poster-section {
+    position: sticky;
+    top: 2rem;
+    height: fit-content;
+  }
+
+  .modal-poster,
+  .modal-poster-placeholder {
+    max-width: none;
+    width: 100%;
+  }
+
+  .modal-backdrop-wrapper {
+    height: 40rem;
+  }
+
+  .modal-title {
+    font-size: 4.8rem;
+  }
+
+  .modal-tagline {
+    font-size: 1.8rem;
+  }
+
+  .modal-title-section {
+    bottom: 3rem;
+    left: 3rem;
+    right: 3rem;
+  }
+
+  .modal-body {
+    padding: 0 3rem 3rem 3rem;
+  }
+
+  .modal-details-section {
+    gap: 2.4rem;
+  }
+
+  .modal-info-group {
+    gap: 1.2rem;
+  }
+
+  .modal-stats {
+    gap: 2.4rem;
+    justify-content: flex-start;
+  }
+
+  .modal-genres {
+    justify-content: flex-start;
+  }
+
+  .modal-providers {
+    justify-content: flex-start;
+  }
+
+  .modal-cast {
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  }
+
+  .cast-member img,
+  .cast-placeholder {
+    width: 10rem;
+    height: 10rem;
+  }
+
+  .cast-placeholder ion-icon {
+    font-size: 4rem;
+  }
+
+  .cast-name {
+    font-size: 1.4rem;
+  }
+
+  .cast-character {
+    font-size: 1.2rem;
+  }
+
+  .provider-item img {
+    width: 6rem;
+    height: 6rem;
+  }
+
+  .provider-item span {
+    font-size: 1.2rem;
+  }
+
+  .modal-trailer iframe {
+    height: 315px;
+    max-width: 80rem;
+  }
+
+  .modal-header-actions {
+    top: 2rem;
+    right: 2rem;
+    gap: 1.2rem;
+  }
+
+  .modal-close-btn {
+    width: 4.8rem;
+    height: 4.8rem;
+  }
+
+  .modal-close-btn ion-icon {
+    font-size: 2.8rem;
   }
 }
 
@@ -231,10 +384,7 @@
   body {
     max-width: 144rem;
   }
-  .header {
-    display: grid;
-    place-items: center;
-  }
+
   .header-items {
     max-width: 144rem;
   }

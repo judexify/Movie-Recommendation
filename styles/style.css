@@ -167,10 +167,10 @@ header {
 
 .modal-header-actions {
   position: absolute;
-  top: 2rem;
-  right: 2rem;
+  top: 1.6rem;
+  right: 1.6rem;
   display: flex;
-  gap: 1.2rem;
+  gap: 0.8rem;
   z-index: 10;
 }
 
@@ -178,8 +178,8 @@ header {
   background: rgba(255, 45, 85, 0.2);
   border: 2px solid #ff2d55;
   border-radius: 50%;
-  width: 4.8rem;
-  height: 4.8rem;
+  width: 4rem;
+  height: 4rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1018,31 +1018,34 @@ main {
 
 /* Modal Body */
 .modal-body {
-  padding: 0 3rem 3rem 3rem;
+  padding: 0 2rem 2rem 2rem;
 }
 
 .modal-main-content {
-  display: grid;
-  grid-template-columns: 30rem 1fr;
-  gap: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .modal-poster-section {
-  position: sticky;
-  top: 2rem;
-  height: fit-content;
+  position: relative;
+  top: auto;
+  height: auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .modal-poster {
   width: 100%;
-  border-radius: 12px;
+  border-radius: 30rem;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   border: 2px solid rgba(255, 45, 85, 0.2);
 }
 
 .modal-poster-placeholder {
   width: 100%;
-  height: 45rem;
+  height: 35rem;
   background: rgba(255, 45, 85, 0.1);
   border-radius: 12px;
   display: flex;
@@ -1050,18 +1053,21 @@ main {
   justify-content: center;
   color: #94a3b8;
   font-size: 1.6rem;
+  margin: 0 auto;
 }
 
 .modal-details-section {
   display: flex;
   flex-direction: column;
-  gap: 2.4rem;
+  gap: 2rem;
+  width: 100%;
 }
 
 .modal-stats {
   display: flex;
-  gap: 2.4rem;
+  gap: 1.2rem;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .modal-stat {
@@ -1069,18 +1075,20 @@ main {
   align-items: center;
   gap: 0.8rem;
   background: rgba(255, 45, 85, 0.1);
-  padding: 1.2rem 1.6rem;
+  padding: 1rem 1.2rem;
   border-radius: 8px;
   border: 1px solid rgba(255, 45, 85, 0.2);
+  flex: 1 1 auto;
+  min-width: fit-content;
 }
 
 .modal-stat ion-icon {
-  font-size: 2rem;
+  font-size: 1.8rem;
   color: #ff2d55;
 }
 
 .modal-stat span {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   color: #e5e7eb;
   font-weight: 600;
 }
@@ -1088,11 +1096,11 @@ main {
 .modal-info-group {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 1rem;
 }
 
 .modal-section-title {
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 700;
   color: #e5e7eb;
   margin: 0;
@@ -1101,7 +1109,7 @@ main {
 }
 
 .modal-overview {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   line-height: 1.8;
   color: #94a3b8;
   margin: 0;
@@ -1109,45 +1117,48 @@ main {
 
 .modal-genres {
   display: flex;
-  gap: 1.2rem;
+  gap: 0.8rem;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .genre-tag {
   background: rgba(255, 45, 85, 0.2);
   color: #ff2d55;
-  padding: 0.8rem 1.6rem;
+  padding: 0.8rem 1.2rem;
   border-radius: 20px;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 600;
   border: 1px solid rgba(255, 45, 85, 0.3);
 }
 
 .modal-cast {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
-  gap: 1.6rem;
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  gap: 1.2rem;
+  justify-items: center;
 }
 
 .cast-member {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 0.6rem;
   align-items: center;
   text-align: center;
+  width: 100%;
 }
 
 .cast-member img {
-  width: 10rem;
-  height: 10rem;
+  width: 8rem;
+  height: 8rem;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid rgba(255, 45, 85, 0.3);
 }
 
 .cast-placeholder {
-  width: 10rem;
-  height: 10rem;
+  width: 8rem;
+  height: 8rem;
   border-radius: 50%;
   background: rgba(255, 45, 85, 0.1);
   display: flex;
@@ -1157,7 +1168,7 @@ main {
 }
 
 .cast-placeholder ion-icon {
-  font-size: 4rem;
+  font-size: 3rem;
   color: #94a3b8;
 }
 
@@ -1168,21 +1179,21 @@ main {
 }
 
 .cast-name {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   font-weight: 600;
   color: #e5e7eb;
   margin: 0;
 }
 
 .cast-character {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: #94a3b8;
   margin: 0;
 }
 
 .modal-providers {
   display: flex;
-  gap: 1.6rem;
+  gap: 1.2rem;
   flex-wrap: wrap;
 }
 
@@ -1190,23 +1201,25 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.8rem;
+  gap: 0.6rem;
 }
 
 .provider-item img {
-  width: 6rem;
-  height: 6rem;
+  width: 5rem;
+  height: 5rem;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .provider-item span {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: #94a3b8;
 }
 
 .modal-trailer iframe {
   border-radius: 12px;
   border: 2px solid rgba(255, 45, 85, 0.2);
-  max-width: 80rem;
+  width: 100%;
+  max-width: 100%;
+  height: 20rem;
 }
