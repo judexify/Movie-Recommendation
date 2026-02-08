@@ -81,7 +81,6 @@ export const displayTrendingForTabbedComponent = function (dataArr, parentEl) {
 
   const trendingTabMarkup = slicedDataArr
     .map((data) => {
-      console.log(data);
       return ` <div class="movie-card" data-id="${data.id}" data-mediatype="${data.media_type}">
       <div class="movie-poster">
         <img
