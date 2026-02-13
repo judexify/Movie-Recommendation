@@ -119,6 +119,7 @@ function init() {
   controlUpcomingSection();
   controlPopularSection();
   controlTopRatedSection();
+  initializeFilters();
 }
 
 form.addEventListener("submit", async function (e) {
@@ -280,23 +281,46 @@ async function controlPagination() {
             mediaType: "movie",
             endpoint: "upcoming",
           };
-          await loadUpcoming(mediaType, endpoint, pageNumber);
+          const filters = view.getFilterValues("upcoming");
+          await loadMediaSection(
+            "upcoming",
+            mediaType,
+            endpoint,
+            pageNumber,
+            filters.region,
+          );
         },
         trending: async () => {
           const data = await model.fetchTrendingMovies(pageNumber);
-          controlFetchedDataForTrending(data);
+          const filters = view.getFilterValues("trending");
+          const sortedData = view.sortMediaContent(data, filters.sort);
+          view.displayTrendingForTabbedComponent(sortedData, trendingSection);
         },
         popular: async () => {
           const { mediaType } = model.state.currentPopular || {
             mediaType: "movie",
           };
-          await loadPopular(mediaType, pageNumber);
+          const filters = view.getFilterValues("popular");
+          await loadMediaSection(
+            "popular",
+            mediaType,
+            "popular",
+            pageNumber,
+            filters.region,
+          );
         },
         toprated: async () => {
           const { mediaType } = model.state.currentToprated || {
             mediaType: "movie",
           };
-          await loadTopRated(mediaType, pageNumber);
+          const filters = view.getFilterValues("toprated");
+          await loadMediaSection(
+            "toprated",
+            mediaType,
+            "top_rated",
+            pageNumber,
+            filters.region,
+          );
         },
       };
 
@@ -356,38 +380,117 @@ function initModalHandlers() {
   });
 }
 
-async function loadMediaSection(sectionId, mediaType, category, page = 1) {
+async function loadMediaSection(
+  sectionId,
+  mediaType,
+  category,
+  page = 1,
+  region = "",
+) {
   const section = document.querySelector(`#${sectionId}-section`);
   const content = section.querySelector(`.${sectionId}-content`);
 
-  try {
-    view.generateMarkupSpinner(content, 4.8, 4.8, "spinner-centered");
-
-    let data;
-    if (sectionId === "upcoming") {
-      data = await model.fetchUpcomingMedia(mediaType, category, page);
-      view.displayUpcomingContent(data, section);
-    } else if (sectionId === "popular" || sectionId === "toprated") {
-      data = await model.fetchPopularandTopRatedMedia(
+  const displayHandlers = {
+    upcoming: async () => {
+      const data = await model.fetchUpcomingMedia(
         mediaType,
         category,
         page,
+        region,
       );
 
-      // Use the appropriate display function
-      if (sectionId === "popular") {
-        view.displayPopularContent(data, section);
-      } else {
-        view.displayTopRatedContent(data, section);
-      }
-    }
+      // Get current sort and apply
+      const filters = view.getFilterValues(sectionId);
+      const sortedData = view.sortMediaContent(data, filters.sort);
+
+      // Clear spinner
+      const spinner = content.querySelector(".spinner-centered");
+      if (spinner) spinner.remove();
+
+      view.displayUpcomingContent(sortedData, section);
+    },
+    popular: async () => {
+      const data = await model.fetchPopularandTopRatedMedia(
+        mediaType,
+        category,
+        page,
+        region,
+      );
+
+      const filters = view.getFilterValues(sectionId);
+      const sortedData = view.sortMediaContent(data, filters.sort);
+
+      const spinner = content.querySelector(".spinner-centered");
+      if (spinner) spinner.remove();
+
+      view.displayPopularContent(sortedData, section);
+    },
+    toprated: async () => {
+      const data = await model.fetchPopularandTopRatedMedia(
+        mediaType,
+        category,
+        page,
+        region,
+      );
+
+      const filters = view.getFilterValues(sectionId);
+      const sortedData = view.sortMediaContent(data, filters.sort);
+
+      const spinner = content.querySelector(".spinner-centered");
+      if (spinner) spinner.remove();
+
+      view.displayTopRatedContent(sortedData, section);
+    },
+  };
+
+  try {
+    content.innerHTML = "";
+    view.generateMarkupSpinner(content, 4.8, 4.8, "spinner-centered");
+
+    await displayHandlers[sectionId]();
   } catch (error) {
     console.error(`Error loading ${sectionId}:`, error);
+    const spinner = content.querySelector(".spinner-centered");
+    if (spinner) spinner.remove();
+    content.innerHTML = '<p class="error">Failed to load content</p>';
   }
 }
 
 function handleMediaSelectorClick(sectionId, selectorBtns) {
   const stateKey = `current${sectionId.charAt(0).toUpperCase() + sectionId.slice(1)}`;
+
+  const sectionHandlers = {
+    upcoming: async (mediaType, endpoint, filters) => {
+      model.state[stateKey] = { mediaType, endpoint };
+      await loadMediaSection(
+        "upcoming",
+        mediaType,
+        endpoint,
+        1,
+        filters.region,
+      );
+    },
+    popular: async (mediaType, _, filters) => {
+      model.state[stateKey] = { mediaType, category: "popular" };
+      await loadMediaSection(
+        "popular",
+        mediaType,
+        "popular",
+        1,
+        filters.region,
+      );
+    },
+    toprated: async (mediaType, _, filters) => {
+      model.state[stateKey] = { mediaType, category: "top_rated" };
+      await loadMediaSection(
+        "toprated",
+        mediaType,
+        "top_rated",
+        1,
+        filters.region,
+      );
+    },
+  };
 
   selectorBtns.forEach((btn) => {
     btn.addEventListener("click", async function () {
@@ -396,17 +499,9 @@ function handleMediaSelectorClick(sectionId, selectorBtns) {
 
       const mediaType = this.dataset.media;
       const endpoint = this.dataset.endpoint;
+      const filters = view.getFilterValues(sectionId);
 
-      if (sectionId === "upcoming") {
-        model.state[stateKey] = { mediaType, endpoint };
-        await loadMediaSection("upcoming", mediaType, endpoint, 1);
-      } else if (sectionId === "popular") {
-        model.state[stateKey] = { mediaType, category: "popular" };
-        await loadMediaSection("popular", mediaType, "popular", 1);
-      } else if (sectionId === "toprated") {
-        model.state[stateKey] = { mediaType, category: "top_rated" };
-        await loadMediaSection("toprated", mediaType, "top_rated", 1);
-      }
+      await sectionHandlers[sectionId](mediaType, endpoint, filters);
     });
   });
 }
@@ -453,3 +548,140 @@ const loadTopRated = async function (mediaType, page = 1) {
 //     view.hideSearchResults();
 //   }
 // });
+
+function initializeFilters() {
+  // Insert filter controls into each section
+  if (upcomingSection) {
+    view.insertFilterControls(upcomingSection, "upcoming");
+  }
+  if (popularSection) {
+    view.insertFilterControls(popularSection, "popular");
+  }
+  if (topRatedSection) {
+    view.insertFilterControls(topRatedSection, "toprated");
+  }
+  if (trendingSection) {
+    view.insertFilterControls(trendingSection, "trending");
+  }
+
+  // Setup filter change listeners
+  setupFilterListeners();
+}
+
+function setupFilterListeners() {
+  document.addEventListener("change", async (e) => {
+    if (
+      e.target.classList.contains("region-filter") ||
+      e.target.classList.contains("sort-filter")
+    ) {
+      const section = e.target.dataset.section;
+      await handleFilterChange(section);
+    }
+  });
+}
+
+async function handleFilterChange(sectionType) {
+  const filters = view.getFilterValues(sectionType);
+
+  const pagination = document.querySelector(".pagination");
+  if (pagination) {
+    const pages = pagination.querySelectorAll(".pages");
+    pages.forEach((p) => p.classList.remove("active"));
+    const firstPage = pagination.querySelector('.pages[data-id="1"]');
+    if (firstPage) firstPage.classList.add("active");
+  }
+
+  const sectionHandlers = {
+    upcoming: async () => {
+      const { mediaType, endpoint } = model.state.currentUpcoming || {
+        mediaType: "movie",
+        endpoint: "upcoming",
+      };
+
+      if (filters.region && mediaType === "movie") {
+        const data = await model.fetchMoviesByCountry(
+          filters.region,
+          "primary_release_date.desc",
+          1,
+        );
+        const sortedData = view.sortMediaContent(data, filters.sort);
+
+        const section = document.querySelector(`#upcoming-section`);
+        view.displayUpcomingContent(sortedData, section);
+      } else {
+        await loadMediaSection(
+          "upcoming",
+          mediaType,
+          endpoint,
+          1,
+          filters.region,
+        );
+      }
+    },
+
+    popular: async () => {
+      const { mediaType } = model.state.currentPopular || {
+        mediaType: "movie",
+      };
+
+      if (filters.region && mediaType === "movie") {
+        const data = await model.fetchMoviesByCountry(
+          filters.region,
+          "popularity.desc",
+          1,
+        );
+        const sortedData = view.sortMediaContent(data, filters.sort);
+
+        const section = document.querySelector(`#popular-section`);
+        view.displayPopularContent(sortedData, section);
+      } else {
+        await loadMediaSection(
+          "popular",
+          mediaType,
+          "popular",
+          1,
+          filters.region,
+        );
+      }
+    },
+
+    toprated: async () => {
+      const { mediaType } = model.state.currentToprated || {
+        mediaType: "movie",
+      };
+
+      if (filters.region && mediaType === "movie") {
+        const data = await model.fetchMoviesByCountry(
+          filters.region,
+          "vote_average.desc",
+          1,
+        );
+        const sortedData = view.sortMediaContent(data, filters.sort);
+
+        const section = document.querySelector(`#toprated-section`);
+        view.displayTopRatedContent(sortedData, section);
+      } else {
+        await loadMediaSection(
+          "toprated",
+          mediaType,
+          "top_rated",
+          1,
+          filters.region,
+        );
+      }
+    },
+
+    trending: async () => {
+      const data = await model.fetchTrendingMovies(1, filters.region);
+      const sortedData = view.sortMediaContent(data, filters.sort);
+      view.displayTrendingForTabbedComponent(sortedData, trendingSection);
+    },
+  };
+
+  try {
+    await sectionHandlers[sectionType]();
+  } catch (error) {
+    console.error(`Error applying filters to ${sectionType}:`, error);
+    view.showmodal("Failed to apply filters. Please try again.");
+  }
+}

@@ -13,11 +13,18 @@ const timeout = function (seconds) {
   });
 };
 
-export const getJSON = async function (url, type = "", page = 1) {
+export const getJSON = async function (url, type = "", page = 1, region = "") {
   try {
     const fullUrl = `${url}${type}`;
     const separator = fullUrl.includes("?") ? "&" : "?";
-    const fetchJSON = fetch(`${fullUrl}${separator}page=${page}`, options);
+
+    let finalUrl = `${fullUrl}${separator}page=${page}`;
+
+    if (region) {
+      finalUrl += `&region=${region}`;
+    }
+
+    const fetchJSON = fetch(finalUrl, options);
 
     const res = await Promise.race([fetchJSON, timeout(TIMEOUT_SEC)]);
 

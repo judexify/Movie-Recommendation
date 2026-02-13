@@ -417,3 +417,130 @@ export const clearSearchResults = function () {
     inputResult.innerHTML = "";
   }
 };
+
+// Generate filter controls for sections
+export const generateFilterControls = function (sectionType) {
+  const regions = [
+    { code: "US", name: "United States" },
+    { code: "GB", name: "United Kingdom" },
+    { code: "CA", name: "Canada" },
+    { code: "AU", name: "Australia" },
+    { code: "IN", name: "India" },
+    { code: "JP", name: "Japan" },
+    { code: "KR", name: "South Korea" },
+    { code: "FR", name: "France" },
+    { code: "DE", name: "Germany" },
+    { code: "ES", name: "Spain" },
+    { code: "IT", name: "Italy" },
+    { code: "BR", name: "Brazil" },
+    { code: "MX", name: "Mexico" },
+    { code: "AR", name: "Argentina" },
+    { code: "NL", name: "Netherlands" },
+    { code: "SE", name: "Sweden" },
+    { code: "NO", name: "Norway" },
+    { code: "DK", name: "Denmark" },
+    { code: "FI", name: "Finland" },
+    { code: "PL", name: "Poland" },
+    { code: "RU", name: "Russia" },
+    { code: "CN", name: "China" },
+    { code: "TH", name: "Thailand" },
+    { code: "ID", name: "Indonesia" },
+    { code: "PH", name: "Philippines" },
+    { code: "MY", name: "Malaysia" },
+    { code: "SG", name: "Singapore" },
+    { code: "NZ", name: "New Zealand" },
+    { code: "ZA", name: "South Africa" },
+    { code: "NG", name: "Nigeria" },
+  ];
+
+  const regionsOptions = regions
+    .map((region) => `<option value="${region.code}">${region.name}</option>`)
+    .join("");
+
+  return `
+    <div class="filter-controls" data-section="${sectionType}">
+      <div class="filter-group">
+        <label for="${sectionType}-region-filter">
+          <ion-icon name="location-outline"></ion-icon>
+          Region:
+        </label>
+        <select id="${sectionType}-region-filter" class="region-filter" data-section="${sectionType}">
+          <option value="">All Regions</option>
+          ${regionsOptions}
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <label for="${sectionType}-sort-filter">
+          <ion-icon name="funnel-outline"></ion-icon>
+          Sort:
+        </label>
+        <select id="${sectionType}-sort-filter" class="sort-filter" data-section="${sectionType}">
+          <option value="newest">Newest First</option>
+          <option value="oldest">Oldest First</option>
+          <option value="rating">Highest Rated</option>
+        </select>
+      </div>
+    </div>
+  `;
+};
+
+export const sortMediaContent = function (data, sortType) {
+  const sortedData = [...data];
+
+  switch (sortType) {
+    case "newest":
+      return sortedData.sort((a, b) => {
+        const dateA = new Date(
+          a.release_date || a.first_air_date || "1900-01-01",
+        );
+        const dateB = new Date(
+          b.release_date || b.first_air_date || "1900-01-01",
+        );
+        return dateB - dateA;
+      });
+
+    case "oldest":
+      return sortedData.sort((a, b) => {
+        const dateA = new Date(
+          a.release_date || a.first_air_date || "1900-01-01",
+        );
+        const dateB = new Date(
+          b.release_date || b.first_air_date || "1900-01-01",
+        );
+        return dateA - dateB;
+      });
+
+    case "rating":
+      return sortedData.sort((a, b) => {
+        return (b.vote_average || 0) - (a.vote_average || 0);
+      });
+
+    default:
+      return sortedData;
+  }
+};
+
+export const insertFilterControls = function (container, sectionType) {
+  const existingFilters = container.querySelector(".filter-controls");
+  if (existingFilters) return;
+
+  const filterMarkup = generateFilterControls(sectionType);
+  const mediaSelector = container.querySelector(".media-type-selector");
+
+  if (mediaSelector) {
+    mediaSelector.insertAdjacentHTML("afterend", filterMarkup);
+  } else {
+    container.insertAdjacentHTML("afterbegin", filterMarkup);
+  }
+};
+
+export const getFilterValues = function (sectionType) {
+  const regionFilter = document.querySelector(`#${sectionType}-region-filter`);
+  const sortFilter = document.querySelector(`#${sectionType}-sort-filter`);
+
+  return {
+    region: regionFilter?.value || "",
+    sort: sortFilter?.value || "newest",
+  };
+};

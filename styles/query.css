@@ -20,7 +20,7 @@
 
 @media (min-width: 30em) {
   html {
-    font-size: 62.5%; /* Back to 10px base */
+    font-size: 62.5%;
   }
 
   .movie-card {
@@ -52,6 +52,19 @@
 
   .modal-tagline {
     font-size: 1.6rem;
+  }
+  .modal-header-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+  }
+
+  .modal-close-btn ion-icon {
+    font-size: 2.8rem;
+    color: #e5e7eb;
+    width: 50%;
+    margin: 0 auto;
   }
 }
 
@@ -179,6 +192,20 @@
   .provider-item img {
     width: 5.5rem;
     height: 5.5rem;
+  }
+  .modal-header-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 10;
+  }
+
+  .modal-close-btn ion-icon {
+    font-size: 2.8rem;
+    color: #e5e7eb;
+    width: 50%;
+    margin: 0 auto;
   }
 }
 
@@ -343,18 +370,22 @@
   }
 
   .modal-header-actions {
-    top: 2rem;
-    right: 2rem;
-    gap: 1.2rem;
-  }
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-  .modal-close-btn {
-    width: 4.8rem;
-    height: 4.8rem;
+    z-index: 10;
   }
 
   .modal-close-btn ion-icon {
     font-size: 2.8rem;
+    color: #e5e7eb;
+    width: 50%;
+    margin: 0 auto;
+  }
+  .modal-close-btn {
+    width: 4.8rem;
+    height: 4.8rem;
   }
 }
 
